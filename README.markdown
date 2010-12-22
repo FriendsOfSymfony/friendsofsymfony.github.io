@@ -6,6 +6,11 @@ What is FriendsOfSymfony about ?
 
 Nothing all to fancy really. Just several people collaborating on the knpLabs DoctrineUserBundle that felt it would be nice to have a vendor namespace to use for this and future Bundle's that are maintained together.
 
+How can I get in contact with FriendsOfSymfony members?
+-------------------------------------------------------
+
+Most of us hang out almost 24/7 in the #symfony-dev IRC channel on freenode.
+
 Who is allowed to join FriendsOfSymfony ?
 -----------------------------------------
 
