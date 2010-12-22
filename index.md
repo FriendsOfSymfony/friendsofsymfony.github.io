@@ -12,7 +12,7 @@ namespace to use for this and future Bundle's that are maintained together.
 How do i get in touch?
 -------------------------------------------------------
 
-Most of us hang out almost 24/7 in the #symfony-dev IRC channel on freenode.
+Most of us hang out almost 24/7 in the [#symfony-dev][channel] IRC channel on [freenode][freenode].
 
 I want to join!
 -----------------------------------------
@@ -44,8 +44,11 @@ So are there any rules?
 
 Not many and really the idea is to just talk to all the other members when in doubt and get agreement.
 
- * new Bundles should be relevant for at least half of the existing members
- * adding a Bundle means that you are ok with all members messing with it
- * obvious stuff can be committed without review
- * non obvious stuff should try to get review from at least one more member
- * try to use feature branches for larger changes
+ * New Bundles should be relevant for at least half of the existing members
+ * Adding a Bundle means that you are ok with all members messing with it
+ * Obvious stuff can be committed without review
+ * Non obvious stuff should try to get review from at least one more member
+ * Try to use feature branches for larger changes
+
+[channel]: irc://irc.freenode.org:6665/symfony-dev
+[freenode]: http://freenode.org
