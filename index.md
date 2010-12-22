@@ -1,3 +1,7 @@
+---
+title: About FriendsOfSymfony
+---
+
 README
 ======
 
