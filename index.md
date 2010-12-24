@@ -6,7 +6,7 @@ title: FriendsOfSymfony
 FriendsOfSymfony
 ======
 
-FriendsOfSymfony is a group of people collaborating on the knpLabs DoctrineUserBundle that felt it would be nice to have a vendor namespace to use for this and future Bundle's that are maintained together.
+[FriendsOfSymfony][fos] is a group of people collaborating on the [knpLabs][knpLabs] DoctrineUserBundle that felt it would be nice to have a vendor namespace to use for this and future Bundle's that are maintained together.
 
 How do I get in touch?
 ----------------------
@@ -48,3 +48,5 @@ Not many and really the idea is to just talk to all the other members when in do
 
 [channel]: irc://irc.freenode.org:6665/symfony-dev
 [freenode]: http://freenode.org
+[fos]: https://github.com/FriendsOfSymfony
+[knpLabs]: https://github.com/knplabs
