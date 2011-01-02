@@ -6,7 +6,7 @@ title: FriendsOfSymfony
 FriendsOfSymfony
 ======
 
-[FriendsOfSymfony][fos] is a group of people collaborating on the [knpLabs][knpLabs] DoctrineUserBundle that felt it would be nice to have a vendor namespace to use for this and future Bundle's that are maintained together.
+[FriendsOfSymfony][fos] is a group of people collaborating on the [knpLabs][knpLabs] UserBundle that felt it would be nice to have a vendor namespace to use for this and future Bundle's that are maintained together.
 
 How do I get in touch?
 ----------------------
