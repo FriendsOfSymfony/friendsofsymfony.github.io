@@ -12,7 +12,8 @@ How do I get in touch?
 ----------------------
 
 Most of us hang out almost 24/7 in the [#symfony-dev][channel] IRC channel on [freenode][freenode].
-There is also the [friendsofsymfony-dev@googlegroups.com][mailinglist].
+There is also the [friendsofsymfony-dev@googlegroups.com][mailinglist]. Finally if you want to
+ask for a vote (for example to propose a new topic) create a ticket on the [friendsofsymfony.github.com repository][fosrepo]
 
 I want to join!
 ---------------
@@ -49,6 +50,7 @@ Not many and really the idea is to just talk to all the other members when in do
 
 [channel]: irc://irc.freenode.org:6665/symfony-dev
 [freenode]: http://freenode.org
+[fosrepo]: https://github.com/FriendsOfSymfony/friendsofsymfony.github.com
 [fos]: https://github.com/FriendsOfSymfony
 [knpLabs]: https://github.com/knplabs
 [mailinglist]: http://groups.google.com/group/friendsofsymfony-dev/
