@@ -270,6 +270,31 @@
         </div>
 
         <div class="slide">
+            <h2>FOSRestBundle</h2>
+            <pre class="brush: php">
+class RestController extends Controller
+{
+    /**
+     * Get the list of articles
+     *
+     * @param string $page page number
+     * @return array data
+     *
+     * @View()
+     * @QueryParam(name="page", requirements="\d+", default="1")
+     * @ApiDoc()
+     */
+    public function getArticlesAction($page)
+    {
+        $articles = array('bim', 'bam', 'bingo');
+
+        return new ArticleCollection($articles);
+    }
+}
+            </pre>
+        </div>
+
+        <div class="slide">
             <h2>JMSSecurityExtraBundle</h2>
             <ul>
                 <li>..</li>
