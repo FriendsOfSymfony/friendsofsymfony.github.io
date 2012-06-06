@@ -81,7 +81,7 @@
             <ul>
                 <li>PEAR Group founder</li>
                 <li>PHP 5.3 co-release manager</li>
-                <li>Symfony2, Doctrine, PHPCR, Jackalope ..</li>
+                <li>Symfony2, Doctrine, PHPCR, Jackalope, Travis-CI ..</li>
                 <li>unofficial liason between Symfony2 and Drupal</li>
                 <li><a href="http://pooteeweet.org">http://pooteeweet.org</a> | <a href="http://twitter.com/lsmith">@lsmith</a></li>
             </ul>
@@ -102,10 +102,10 @@
         <div class="slide">
             <h2>What is a Bundle?</h2>
             <ul>
-                <li>A reusable piece of code for Symfony2 projects</li>
-                <li>But think about standalone libraries too</li>
-                <li>A set of Controllers and/or CLI Commands</li>
+                <li>Bundles are first class citizens</li>
+                <li>As a matter of fact the Symfony2 framework is a Bundle too!</li>
                 <li>The minimal glue code to integrate a library with Symfony2</li>
+                <li>Usually a set of Controllers and/or CLI Commands</li>
             </ul>
         </div>
 
@@ -117,7 +117,7 @@
                 <li>A Bundle can provide Commands</li>
                 <li>A Bundle can provide entities/documents</li>
                 <li>A Bundle can provide services</li>
-                <li>A Bundle can provide assets</li>
+                <li>A Bundle can provide assets (jsm css, images)</li>
             </ul>
         </div>
 
@@ -159,6 +159,7 @@
                         <li>views</li>
                     </ul>
                 </li>
+                <li>...</li>
             </ul>
         </div>
 
@@ -223,10 +224,24 @@
         <!-- lsmith77 -->
         <div class="slide">
             <h2>Bundles best practices: <a href="http://travis-ci.org/">Travis-CI</a></h2>
-            <ul>
-                <li>Free hosted CI for open-source projects</li>
-                <li>.travis.yml</li>
-            </ul>
+            <pre class="brush: plain">
+# ./.travis.yml
+language: php
+
+php:
+- 5.3
+- 5.4
+
+before_script:
+- wget -nc http://getcomposer.org/composer.phar
+- php composer.phar install --dev
+
+script: phpunit --coverage-text
+
+notifications:
+    email:
+        - travis-ci@liip.ch
+            </pre>
         </div>
 
         <!-- Stof -->
@@ -293,7 +308,8 @@ class Response
         $this->articles = $a;
         $this->page = $page;
     }
-}            </pre>
+}
+            </pre>
         </div>
 
         <!-- lsmith77 -->
@@ -357,8 +373,40 @@ class RestController extends Controller
         <div class="slide">
             <h2>LiipImagineBundle</h2>
             <ul>
-                <li>..</li>
+                <li>Integration with the imagine image manipilation library</li>
+                <li>Define filter groups to dynamically apply to images</li>
+                <li>Automatically defines routes for each filter groups</li>
+                <li>Optional pluggable cacheing</li>
+                <li>Define custom loaders (filesystem, database etc.)</li>
             </ul>
+        </div>
+
+        <!-- lsmith77 -->
+        <div class="slide">
+            <h2>LiipImagineBundle</h2>
+            <pre class="brush: plain">
+{% extends "LiipHelloBundle::layout.html.twig" %}
+
+{% block content %}
+
+    <div>
+        original:<br>
+        <img src="{{ '/bundles/hello/images/image_test.jpg' }}"/>
+    </div>
+
+    <div>
+        LiipImagineBundle in action:<br>
+        <img src="{{ '/bundles/hello/images/image_test.png' | imagine_filter('my_thumb') }}"/>
+    </div>
+
+    <div>
+        LiipImagineBundle in action:<br>
+        <img src="{{ '/bundles/hello/images/image_test.png' | imagine_filter('my_thumb', true) }}"/>
+    </div>
+
+
+{% endblock content %}
+            </pre>
         </div>
 
         <!-- Stof -->
@@ -371,24 +419,37 @@ class RestController extends Controller
 
         <div class="slide">
             <div class="vcenter">
-                <h2>.. and what are you looking for?</h2>
+                <h2>Demo Time</h2>
 
-                <h2>.. tell us what feature you need in your next project and lets see if we can find a Bundle for you ..</h2>
+                <p>.. and what are you looking for?</p>
+
+                <p>.. tell us what feature you need in your next project and lets see if we can find a Bundle for you ..</p>
             </div>
         </div>
 
+        <!-- lsmith77 -->
         <div class="slide">
             <h2>Github projects</h2>
             <ul>
-                <li><a href="http://friendsofsymfony.github.com/">Github organization</a></li>
+                <li><a href="http://github.com/friendsOfSymfony/FOSUserBundle">FOSUserBundle</a></li>
+                <li><a href="http://github.com/schmittjoh/JMSSerializerBundle">JMSSerializerBundle</a></li>
+                <li><a href="http://github.com/friendsOfSymfony/FOSRestBundle">FOSRestBundle</a></li>
+                <li><a href="http://github.com/schmittjoh/JMSSecurityExtraBundle">JMSSecurityExtraBundle</a></li>
+                <li><a href="http://github.com/stof/StofDoctrineExtensionBundle">StofDoctrineExtensionBundle</a></li>
+                <li><a href="http://github.com/liip/LiipImagineBundle">LiipImagineBundle</a></li>
+                <li><a href="http://github.com/knplabs/KnpMenuBundle">KnpMenuBundle</a></li>
             </ul>
         </div>
 
+        <!-- lsmith77 -->
         <div class="slide">
             <h2>Resources</h2>
             <ul>
+                <li><a href="http://symfony.com/doc/current/bundles.html">Standard Edition bundles</a></li>
+                <li><a href="http://symfony.com/doc/current/cookbook/bundles.html">Bundle cookbooks</a></li>
                 <li><a href="irc://freenode/#symfony">#symfony IRC</a></li>
                 <li><a href="http://knpbundles.com">http://knpbundles.com</a></li>
+                <li><a href="http://friendsofsymfony.github.com/">FOS github organization</a></li>
             </ul>
         </div>
 
