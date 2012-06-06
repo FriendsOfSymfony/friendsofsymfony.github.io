@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
     <head>
 
         <!-- To render these slides you need Slippy https://github.com/Seldaek/slippy -->
@@ -101,34 +101,79 @@
             <ul>
                 <li>A reusable piece of code for Symfony2 projects</li>
                 <li>But think about standalone libraries too</li>
+                <li>A set of Controllers and/or CLI Commands</li>
+                <li>The minimal glue code to integrate a library with Symfony2</li>
             </ul>
         </div>
 
         <div class="slide">
             <h2>What can Bundle do?</h2>
             <ul>
-                <li>..</li>
+                <li>A Bundle can provide Controllers</li>
+                <li>A Bundle can provide Commands</li>
+                <li>A Bundle can provide entities/documents</li>
+                <li>A Bundle can provide services</li>
+                <li>A Bundle can provide assets</li>
             </ul>
         </div>
 
         <div class="slide">
             <h2>Unofficial Bundle index: knpbundles.com</h2>
             <ul>
-                <li>..</li>
+                <li>Automatically indexes code that looks like a Bundle</li>
+                <li>Generates a point value based on followers and some simple metrics (README yes/no, Travis-CI yes/no, recent activity ..)</li>
             </ul>
         </div>
 
         <div class="slide">
-            <h2>Bundles best practices: Bundle dir structure</h2>
+            <h2>Bundles best practices: <a href="http://symfony.com/doc/current/cookbook/bundles/best_practices.html">Bundle dir structure</a></h2>
             <ul>
-                <li>http://symfony.com/doc/current/cookbook/bundles/best_practices.html</li>
+                <li>MyBundle.php</li>
+                <li>Command
+                    <ul>
+                        <li>MyCommand.php</li>
+                    </ul>
+                </li>
+                <li>Controller
+                    <ul>
+                        <li>MyController.php</li>
+                    </ul>
+                </li>
+                <li>Entity/Document
+                    <ul>
+                        <li>User.php</li>
+                        <li>UserRepository.php</li>
+                    </ul>
+                </li>
+                <li>Resources
+                    <ul>
+                        <li>config</li>
+                        <li>doc</li>
+                        <li>meta</li>
+                        <li>public</li>
+                        <li>views</li>
+                    </ul>
+                </li>
             </ul>
         </div>
 
         <div class="slide">
-            <h2>Bundles best practices: DIC configuration</h2>
+            <h2>Bundles best practices: <a href="http://symfony.com/doc/current/cookbook/bundles/extension.html">DIC configuration</a></h2>
             <ul>
-                <li>http://symfony.com/doc/current/cookbook/bundles/extension.html</li>
+                <li>Prefix all services with the Bundle alias (ie. MyExtension::getAlias())</li>
+                <li>Explicitly handle any configurable parameters</li>
+                <li>Use compiler passes to interact with other Bundles services</li>
+                <li>DependencyInjection
+                    <ul>
+                        <li>Compiler
+                            <ul>
+                                <li>MyCompilerPass.php</li>
+                            </ul>
+                        </li>
+                        <li>Configuration.php</li>
+                        <li>MyExtension.php</li>
+                    </ul>
+                </li>
             </ul>
         </div>
 
@@ -140,26 +185,37 @@
         </div>
 
         <div class="slide">
-            <h2>Bundles best practices: Composer</h2>
+            <h2>Bundles best practices: <a href="http://getcomposer.org/">Composer</a></h2>
             <ul>
-                <li>http://getcomposer.org/</li>
                 <li>Default dependency management as of Symfony 2.1</li>
                 <li>Bundles should be registered on <a href="http://packagist.org/">Packagist</a></li>
+                <li>Make sure to enable the "Packagist" commit hook</li>
             </ul>
         </div>
 
         <div class="slide">
             <h2>Bundles best practices: Tests</h2>
             <ul>
-                <li>..</li>
+                <li>Use JMSCommandBundle to generate Kernels for functional tests</li>
+                <li>phpunit.xml.dist</li>
+                <li>Tests
+                    <ul>
+                        <li>Controller
+                            <ul>
+                                <li>MyControllerTest.php</li>
+                            </ul>
+                        </li>
+                        <li>..</li>
+                    </ul>
+                </li>
             </ul>
         </div>
 
         <div class="slide">
-            <h2>Bundles best practices: Travis-CI</h2>
+            <h2>Bundles best practices: <a href="http://travis-ci.org/">Travis-CI</a></h2>
             <ul>
-                <li>http://travis-ci.org/</li>
                 <li>Free hosted CI for open-source projects</li>
+                <li>.travis.yml</li>
             </ul>
         </div>
 
@@ -191,14 +247,25 @@
         <div class="slide">
             <h2>JMSSerializerBundle</h2>
             <ul>
-                <li>..</li>
+                <li>Expands on the core Serializer</li>
+                <li>Implements visitor pattern to give more flexibility</li>
+                <li>More flexible handling to return different structures for JSON and XML</li>
+                <li>Most effective when (de)serializing from/to Object Graphs</li>
+                <li>Additional features like versioning, group based serialization rule sets etc.</li>
             </ul>
         </div>
 
         <div class="slide">
             <h2>FOSRestBundle</h2>
             <ul>
-                <li>..</li>
+                <li>Provides a set of services and listeners to help in building REST APIs</li>
+                <ul>
+                    <li>View layer using JMSSerializerBundle to support HTML, XML, JSON from a single Controller action</li>
+                    <li>Automatic generation of routes from Controller actions</li>
+                    <li>Accept header negotiation</li>
+                    <li>Request body decoding</li>
+                    <li>GET parameter parsing and validation</li>
+                </ul>
             </ul>
         </div>
 
