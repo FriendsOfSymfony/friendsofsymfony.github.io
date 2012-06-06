@@ -256,6 +256,32 @@
         </div>
 
         <div class="slide">
+            <h2>JMSSerializerBundle</h2>
+            <pre class="brush: php">
+use JMS\SerializerBundle\Annotation as Serializer;
+use JMS\SerializerBundle\Annotation\XmlList;
+
+use Doctrine\Common\Collections\Collection;
+
+class Response
+{
+    /**
+     * @var Collection
+     * @XmlList(inline = true, entry = "article")
+     */
+    protected $articles;
+
+    protected $page;
+
+    public function __construct(Collection $a, $page)
+    {
+        $this->articles = $a;
+        $this->page = $page;
+    }
+}            </pre>
+        </div>
+
+        <div class="slide">
             <h2>FOSRestBundle</h2>
             <ul>
                 <li>Provides a set of services and listeners to help in building REST APIs</li>
