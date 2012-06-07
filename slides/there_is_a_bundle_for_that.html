@@ -222,6 +222,28 @@
                 <li>Bundles should be registered on <a href="http://packagist.org/">Packagist</a></li>
                 <li>Make sure to enable the "Packagist" commit hook</li>
             </ul>
+            <pre class="brush: plain">
+{
+    "name": "acme/my-bundle",
+    "type": "symfony-bundle",
+    "description": "This Bundle is an example",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Duffy Duck",
+            "email": "diffy@acme.com"
+        }
+    ],
+    "require": {
+        "php":                      ">=5.3.3",
+        "symfony/framework-bundle": ">=2.0,<2.2-dev",
+    },
+    "autoload": {
+        "psr-0": { "Acme\\MyBundle": "" }
+    },
+    "target-dir": "Acme/MyBundle"
+}
+            </pre>
         </div>
 
         <!-- Stof -->
