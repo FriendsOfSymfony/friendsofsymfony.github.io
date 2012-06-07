@@ -238,8 +238,32 @@ class AcmeMyExtension extends Extension
         <div class="slide">
             <h2>Bundles best practices: Configuration class</h2>
             <ul>
-                <li>..</li>
+                <li>Merges and validates the configuration of the bundle</li>
+                <li>As of 2.1, the config reference can be dumped from it</li>
             </ul>
+            <pre class="brush: php">
+use Symfony\Component\Config\Definition\Builder\TreeBuilder;
+use Symfony\Component\Config\Definition\ConfigurationInterface;
+
+class Configuration implements ConfigurationInterface
+{
+    public function getConfigTreeBuilder()
+    {
+        $treeBuilder = new TreeBuilder();
+        $rootNode = $treeBuilder->root('ls_thrift');
+
+        $rootNode
+            ->children()
+                ->scalarNode('host')->isRequired()->cannotBeEmpty()->end()
+                ->scalarNode('port')->defaultValue(2000)->end()
+                ->scalarNode('timeout')->defaultValue(30000)->end()
+            ->end()
+        ;
+
+        return $treeBuilder;
+    }
+}
+            </pre>
         </div>
 
         <!-- Stof -->
