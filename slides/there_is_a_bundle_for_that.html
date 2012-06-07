@@ -542,17 +542,21 @@ class RestController extends Controller
     /**
      * Get the list of articles
      *
-     * @param string $page page number
      * @return array data
      *
      * @View()
      * @Secure(roles="ROLE_ADMIN")
      */
-    public function getArticlesAction($page)
+    public function getArticlesAction()
     {
-        $articles = array('bim', 'bam', 'bingo');
+        /*
+        $security = $this->get('security.context');
+        if ($security->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException();
+        }
+        */
 
-        return new ArticleCollection($articles);
+        return array('bim', 'bam', 'bingo');
     }
 }
             </pre>
