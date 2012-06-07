@@ -268,7 +268,7 @@
                 </li>
             </ul>
             <pre class="brush: php">
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class HomepageTest extends WebTestCase
 {
@@ -291,23 +291,28 @@ class HomepageTest extends WebTestCase
         <!-- lsmith77 -->
         <div class="slide">
             <h2>Bundles best practices: <a href="http://travis-ci.org/">Travis-CI</a></h2>
+            <ul>
+                <li>Just create a ".travis.yml" file</li>
+                <li>Enable github hook to run tests automatically</li>
+                <li>Test against multiple PHP versions, library versions and DBs</li>
+            </ul>
             <pre class="brush: plain">
-# ./.travis.yml
 language: php
 
-php:
-- 5.3
-- 5.4
+php: [ 5.3, 5.4 ]
+
+env: [ DB=mysql, DB=pgsql ]
 
 before_script:
 - wget -nc http://getcomposer.org/composer.phar
 - php composer.phar install --dev
+  - if [[ "$DB" == "pgsql" ]]; then psql -c "DROP DATABASE IF EXISTS hello_world_test;" -U postgres; fi
+  - if [[ "$DB" == "pgsql" ]]; then psql -c "create database hello_world_test;" -U postgres; fi
+  - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS hello_world_test;" -uroot; fi
 
 script: phpunit --coverage-text
 
-notifications:
-    email:
-        - travis-ci@liip.ch
+notifications: [ email: [ travis-ci@liip.ch ] ]
             </pre>
         </div>
 
