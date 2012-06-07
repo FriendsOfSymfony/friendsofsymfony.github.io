@@ -462,6 +462,8 @@ class Response
         <div class="slide">
             <h2>FOSRestBundle</h2>
             <pre class="brush: php">
+use Acme\MyBundle\Response;
+
 class RestController extends Controller
 {
     /**
@@ -478,7 +480,7 @@ class RestController extends Controller
     {
         $articles = array('bim', 'bam', 'bingo');
 
-        return new ArticleCollection($articles);
+        return new Response($articles, $page);
     }
 }
             </pre>
@@ -497,6 +499,8 @@ class RestController extends Controller
         <div class="slide">
             <h2>JMSSecurityExtraBundle</h2>
             <pre class="brush: php">
+use Acme\MyBundle\ArticleCollection;
+
 class RestController extends Controller
 {
     /**
@@ -506,8 +510,6 @@ class RestController extends Controller
      * @return array data
      *
      * @View()
-     * @QueryParam(name="page", requirements="\d+", default="1")
-     * @ApiDoc()
      * @Secure(roles="ROLE_ADMIN")
      */
     public function getArticlesAction($page)
