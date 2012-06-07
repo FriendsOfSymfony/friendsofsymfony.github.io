@@ -234,10 +234,33 @@
                                 <li>MyControllerTest.php</li>
                             </ul>
                         </li>
-                        <li>..</li>
+                        <li>Functional
+                            <ul>
+                                <li>HomepageTest.php</li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
             </ul>
+            <pre class="brush: php">
+use Liip\FunctionalTestBundle\Test\WebTestCase;
+
+class HomepageTest extends WebTestCase
+{
+    public function testContents()
+    {
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/');
+        $s = $client->getResponse()->getStatusCode();
+        $this->assertEquals(200, $s);
+
+        $crawler->filter('h1:contains(Homepage)');
+        $this->assertCount(1, $count);
+        $crawler->filter('ul.menu_main li')
+        $this->assertCount(13, $count);
+    }
+}
+            </pre>
         </div>
 
         <!-- lsmith77 -->
