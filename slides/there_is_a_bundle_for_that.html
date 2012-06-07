@@ -104,8 +104,7 @@
             <ul>
                 <li>Bundles are first class citizens</li>
                 <li>As a matter of fact the Symfony2 framework is a Bundle too!</li>
-                <li>The minimal glue code to integrate a library with Symfony2</li>
-                <li>Usually a set of Controllers and/or CLI Commands</li>
+                <li>The minimal glue code to integrate a library with Symfony2 and/or a set of Controllers/CLI Commands</li>
             </ul>
         </div>
 
@@ -359,16 +358,18 @@ class HomepageTest extends WebTestCase
             <pre class="brush: plain">
 language: php
 
-php: [ 5.3, 5.4 ]
+php:
+    - 5.3
+    - 5.4
 
-env: [ DB=mysql, DB=pgsql ]
+env:
+    - DB=mysql
+    - DB=pgsql
 
 before_script:
 - wget -nc http://getcomposer.org/composer.phar
 - php composer.phar install --dev
-  - if [[ "$DB" == "pgsql" ]]; then psql -c "DROP DATABASE IF EXISTS hello_world_test;" -U postgres; fi
-  - if [[ "$DB" == "pgsql" ]]; then psql -c "create database hello_world_test;" -U postgres; fi
-  - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS hello_world_test;" -uroot; fi
+- tests/${DB}_setup.sh
 
 script: phpunit --coverage-text
 
