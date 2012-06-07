@@ -424,6 +424,9 @@ use JMS\SerializerBundle\Annotation\XmlList;
 
 use Doctrine\Common\Collections\Collection;
 
+/**
+ * @Serializer\XmlRoot("response")
+ */
 class Response
 {
     /**
@@ -483,6 +486,39 @@ class RestController extends Controller
         return new Response($articles, $page);
     }
 }
+            </pre>
+        </div>
+
+        <!-- lsmith77 -->
+        <div class="slide">
+            <h2>FOSRestBundle</h2>
+            <pre class="brush: plain">
+                <html>
+                    <body>
+                        <div>
+                            <div>bim</div>
+                            <div>bam</div>
+                            <div>bingo</div>
+                        </div>
+                        <div>page: 2</div>
+                    </body>
+                </html>
+
+                <response>
+                    <article>bim</article>
+                    <article>bam</article>
+                    <article>bingo</article>
+                    <page>2</page>
+                </response>
+
+                {
+                  "articles": [
+                    "bim",
+                    "bam",
+                    "bingo"
+                  ],
+                  "page": "2"
+                }
             </pre>
         </div>
 
