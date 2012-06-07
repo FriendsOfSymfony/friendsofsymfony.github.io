@@ -396,8 +396,10 @@ notifications: [ email: [ travis-ci@liip.ch ] ]
             <h2>FOSUserBundle</h2>
             <ul>
                 <li>Provides user management for your project</li>
-                <li>Registration, password resetting...</li>
-                <li>Supports Doctrine ORM, MongoDB, CouchDB, Propel... and your own</li>
+                <li>Integrates with SecurityBundlet</li>
+                <li>Controllers for registration, password resetting...</li>
+                <li>Supports Doctrine ORM, MongoDB ODM, CouchDB ODM, Propel</li>
+                <li>... and add your own storage layer</li>
             </ul>
         </div>
 
@@ -490,6 +492,32 @@ class RestController extends Controller
                 <li>Annotation-based security checks</li>
                 <li>Expression-based permissions
             </ul>
+        </div>
+
+        <div class="slide">
+            <h2>JMSSecurityExtraBundle</h2>
+            <pre class="brush: php">
+class RestController extends Controller
+{
+    /**
+     * Get the list of articles
+     *
+     * @param string $page page number
+     * @return array data
+     *
+     * @View()
+     * @QueryParam(name="page", requirements="\d+", default="1")
+     * @ApiDoc()
+     * @Secure(roles="ROLE_ADMIN")
+     */
+    public function getArticlesAction($page)
+    {
+        $articles = array('bim', 'bam', 'bingo');
+
+        return new ArticleCollection($articles);
+    }
+}
+            </pre>
         </div>
 
         <!-- Stof -->
