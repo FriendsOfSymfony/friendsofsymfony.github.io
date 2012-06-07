@@ -357,7 +357,9 @@ class RestController extends Controller
         <div class="slide">
             <h2>JMSSecurityExtraBundle</h2>
             <ul>
-                <li>..</li>
+                <li>Extra features on top of the Security component</li>
+                <li>Annotation-based security checks</li>
+                <li>Expression-based permissions
             </ul>
         </div>
 
@@ -365,8 +367,34 @@ class RestController extends Controller
         <div class="slide">
             <h2>StofDoctrineExtensionBundle</h2>
             <ul>
-                <li>..</li>
+                <li>Configures the <a href="https://github.com/l3pp4rd/DoctrineExtensions">Gedmo behavioral extensions<a></li>
+                <li>Timestampable, translatable, sluggable, tree...</li>
             </ul>
+        </div>
+
+        <!-- Stof -->
+        <div class="slide">
+            <h2>StofDoctrineExtensionBundle</h2>
+            <pre class="brush: php">
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+
+/** @ORM\Entity() */
+class Post
+{
+    /**
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Timestampable(on="create")
+     */
+    protected $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Timestampable(on="update")
+     */
+    protected $updatedAt;
+}
+            </pre>
         </div>
 
         <!-- lsmith77 -->
@@ -413,7 +441,9 @@ class RestController extends Controller
         <div class="slide">
             <h2>KnpMenuBundle</h2>
             <ul>
-                <li>..</li>
+                <li>Build your menus in an object-oriented way</li>
+                <li>Menu represented as a tree of objects</li>
+                <li>Renders the menu with several renderers ("standard" menu, breadcrumb...)</li>
             </ul>
         </div>
 
