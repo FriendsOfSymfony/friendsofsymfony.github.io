@@ -208,6 +208,34 @@
 
         <!-- Stof -->
         <div class="slide">
+            <h2>Bundles best practices: <a href="http://symfony.com/doc/current/cookbook/bundles/extension.html">DIC configuration</a></h2>
+            <pre class="brush: php">
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+
+class AcmeMyExtension extends Extension
+{
+    public function load(array $configs, ContainerBuilder $container)
+    {
+        $configuration = new Configuration();
+        $config = $this->processConfiguration($configuration, $configs);
+
+        $locator = new FileLocator(__DIR__ . '/../Resources/config');
+        $loader = new XmlFileLoader($container, $locator);
+        $loader->load('services.xml');
+
+        foreach ($config as $key => $value) {
+            $container->setParameter(sprintf('acme_my.%s', $key), $value);
+        }
+    }
+}
+            </pre>
+        </div>
+
+        <!-- Stof -->
+        <div class="slide">
             <h2>Bundles best practices: Configuration class</h2>
             <ul>
                 <li>..</li>
