@@ -210,24 +210,27 @@
         <div class="slide">
             <h2>Bundles best practices: <a href="http://symfony.com/doc/current/cookbook/bundles/extension.html">DIC configuration</a></h2>
             <pre class="brush: php">
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\C..\D..I..\ContainerBuilder as CB;
+use Symfony\C..\Config\FileLocator;
+use Symfony\C..\HttpKernel\D..I..\Extension;
+use Symfony\..\D..I..\Loader\XmlFileLoader;
 
 class AcmeMyExtension extends Extension
 {
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, CB $dic)
     {
         $configuration = new Configuration();
-        $config = $this->processConfiguration($configuration, $configs);
+        $config = $this->processConfiguration(
+            $configuration, $configs
+        );
 
-        $locator = new FileLocator(__DIR__ . '/../Resources/config');
-        $loader = new XmlFileLoader($container, $locator);
+        $dir = __DIR__ . '/../Resources/config';
+        $locator = new FileLocator($dir);
+        $loader = new XmlFileLoader($dic, $locator);
         $loader->load('services.xml');
 
-        foreach ($config as $key => $value) {
-            $container->setParameter(sprintf('acme_my.%s', $key), $value);
+        foreach ($config as $key => $val) {
+            $dic->setParameter('acme_my.'.$key, $val);
         }
     }
 }
@@ -239,24 +242,26 @@ class AcmeMyExtension extends Extension
             <h2>Bundles best practices: Configuration class</h2>
             <ul>
                 <li>Merges and validates the configuration of the bundle</li>
-                <li>As of 2.1, the config reference can be dumped from it</li>
+                <li>As of 2.1 there is "app/console config:dump-reference"</li>
             </ul>
             <pre class="brush: php">
-use Symfony\Component\Config\Definition\Builder\TreeBuilder;
-use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\C..\Config\Definition\Builder\TreeBuilder;
+use Symfony\C..\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('ls_thrift');
 
-        $rootNode
+        $treeBuilder->root('acme_my')
             ->children()
-                ->scalarNode('host')->isRequired()->cannotBeEmpty()->end()
-                ->scalarNode('port')->defaultValue(2000)->end()
-                ->scalarNode('timeout')->defaultValue(30000)->end()
+                ->scalarNode('host')
+                    ->isRequired()->cannotBeEmpty()->end()
+                ->scalarNode('port')
+                    ->defaultValue(2000)->end()
+                ->scalarNode('timeout')
+                    ->defaultValue(30000)->end()
             ->end()
         ;
 
