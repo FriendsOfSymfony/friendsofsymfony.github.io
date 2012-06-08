@@ -74,6 +74,17 @@
             <h2>There is a Bundle for that</h2>
         </div>
 
+        <!-- Stof -->
+        <div class="slide">
+            <h2>Christophe Coevoet</h2>
+
+            <ul>
+                <li>Symfony2, Doctrine, Monolog, FOSUserBundle ..</li>
+                <li>Code reviewer on many libraries</li>
+                <li><a href="http://twitter.com/Stof70">@Stof70</a></li>
+            </ul>
+        </div>
+
         <!-- lsmith77 -->
         <div class="slide">
             <h2>Lukas Kahwe Smith</h2>
@@ -84,17 +95,6 @@
                 <li>Symfony2, Doctrine, PHPCR, Jackalope, Travis-CI ..</li>
                 <li>unofficial liason between Symfony2 and Drupal</li>
                 <li><a href="http://pooteeweet.org">http://pooteeweet.org</a> | <a href="http://twitter.com/lsmith">@lsmith</a></li>
-            </ul>
-        </div>
-
-        <!-- Stof -->
-        <div class="slide">
-            <h2>Christophe Coevoet</h2>
-
-            <ul>
-                <li>Symfony2, Doctrine, Monolog, FOSUserBundle ..</li>
-                <li>Code reviewer on many libraries</li>
-                <li><a href="http://twitter.com/Stof70">@Stof70</a></li>
             </ul>
         </div>
 
@@ -242,10 +242,8 @@ class AcmeMyExtension extends Extension
             <ul>
                 <li>Merges and validates the configuration of the bundle</li>
                 <li>As of 2.1 there is "app/console config:dump-reference"</li>
-                <li><a href="http://www.slideshare.net/denderello/what-mom-never-told-you-about-bundle-configurations-symfony-live-paris-2012">
-                    @denderello talked about it yesterday
-                </a></li>
             </ul>
+
             <pre class="brush: php">
 use Symfony\C..\Config\Definition as Def;
 
@@ -309,7 +307,6 @@ class Configuration implements Def\ConfigurationInterface
             <h2>Bundles best practices: Tests</h2>
             <ul>
                 <li>JMSCommandBundle can generate Kernels for functional tests</li>
-                <li>phpunit.xml.dist</li>
                 <li>Tests
                     <ul>
                         <li>Controller
@@ -427,7 +424,7 @@ class MyBundle extends Bundle
             <ul>
                 <li><a href="https://github.com/signup/free">Setup a github account</a></li>
                 <li>Branch, commit, fork, change your remote, push, open PR</li>
-                <li>Rember to follow the <a href="http://symfony.com/doc/current/contributing/index.html">Symfony2 coding guide</a></li>
+                <li>Remember to follow the <a href="http://symfony.com/doc/current/contributing/index.html">Symfony2 coding guide</a></li>
             </ul>
 
             <br/>
@@ -445,6 +442,46 @@ class MyBundle extends Bundle
                 <li>Supports Doctrine ORM, MongoDB ODM, CouchDB ODM, Propel</li>
                 <li>... and add your own storage layer</li>
             </ul>
+        </div>
+
+        <!-- Stof -->
+        <div class="slide">
+            <h2>JMSSecurityExtraBundle</h2>
+            <ul>
+                <li>Extra features on top of the Security component</li>
+                <li>Annotation-based security checks</li>
+                <li>Expression-based permissions
+            </ul>
+        </div>
+
+        <div class="slide">
+            <h2>JMSSecurityExtraBundle</h2>
+            <pre class="brush: php">
+use Acme\MyBundle\ArticleCollection;
+
+class RestController extends Controller
+{
+    /**
+     * Get the list of articles
+     *
+     * @return array data
+     *
+     * @Template()
+     * @Secure(roles="ROLE_ADMIN")
+     */
+    public function getArticlesAction()
+    {
+        /*
+        $security = $this->get('security.context');
+        if ($security->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException();
+        }
+        */
+
+        return array('bim', 'bam', 'bingo');
+    }
+}
+            </pre>
         </div>
 
         <!-- lsmith77 -->
@@ -570,46 +607,6 @@ class RestController extends Controller
 
         <!-- Stof -->
         <div class="slide">
-            <h2>JMSSecurityExtraBundle</h2>
-            <ul>
-                <li>Extra features on top of the Security component</li>
-                <li>Annotation-based security checks</li>
-                <li>Expression-based permissions
-            </ul>
-        </div>
-
-        <div class="slide">
-            <h2>JMSSecurityExtraBundle</h2>
-            <pre class="brush: php">
-use Acme\MyBundle\ArticleCollection;
-
-class RestController extends Controller
-{
-    /**
-     * Get the list of articles
-     *
-     * @return array data
-     *
-     * @View()
-     * @Secure(roles="ROLE_ADMIN")
-     */
-    public function getArticlesAction()
-    {
-        /*
-        $security = $this->get('security.context');
-        if ($security->isGranted('ROLE_ADMIN')) {
-            throw new AccessDeniedException();
-        }
-        */
-
-        return array('bim', 'bam', 'bingo');
-    }
-}
-            </pre>
-        </div>
-
-        <!-- Stof -->
-        <div class="slide">
             <h2>StofDoctrineExtensionBundle</h2>
             <ul>
                 <li>Configures the <a href="https://github.com/l3pp4rd/DoctrineExtensions">Gedmo behavioral extensions</a></li>
@@ -636,6 +633,23 @@ class Post
     protected $updatedAt;
 }
             </pre>
+        </div>
+
+        <!-- Stof -->
+        <div class="slide">
+            <h2>KnpMenuBundle</h2>
+            <ul>
+                <li>Build your menus in an object-oriented way</li>
+                <li>Menu represented as a tree of objects</li>
+                <li>Renders the menu with several renderers:
+                    <ul>
+                        <li>"standard" menu</li>
+                        <li>breadcrumb</li>
+                        <li>...)</li>
+                    </ul>
+                </li>
+                <li>Pluggable data providers</li>
+            </ul>
         </div>
 
         <!-- lsmith77 -->
@@ -677,23 +691,6 @@ class Post
 
 {% endblock content %}
             </pre>
-        </div>
-
-        <!-- Stof -->
-        <div class="slide">
-            <h2>KnpMenuBundle</h2>
-            <ul>
-                <li>Build your menus in an object-oriented way</li>
-                <li>Menu represented as a tree of objects</li>
-                <li>Renders the menu with several renderers:
-                <ul>
-                    <li>"standard" menu</li>
-                    <li>breadcrumb</li>
-                    <li>...)</li>
-                </ul>
-                </li>
-                <li>Pluggable data providers</li>
-            </ul>
         </div>
 
         <div class="slide">
