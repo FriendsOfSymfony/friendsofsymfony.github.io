@@ -615,11 +615,7 @@ class RestController extends Controller
                 <li>Configures the <a href="https://github.com/l3pp4rd/DoctrineExtensions">Gedmo behavioral extensions</a></li>
                 <li>Timestampable, translatable, sluggable, tree...</li>
             </ul>
-        </div>
 
-        <!-- Stof -->
-        <div class="slide">
-            <h2>StofDoctrineExtensionBundle</h2>
             <pre class="brush: php">
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -662,21 +658,22 @@ class Post
 
 {% block content %}
 
-    <div>
-        original:<br>
-        <img src="{{ '/bundles/hello/images/image_test.jpg' }}"/>
-    </div>
+<div>
+  original:<br>
+  <img src="{{ '/bundles/hello/images/test.jpg' }}"/>
+</div>
 
-    <div>
-        LiipImagineBundle in action:<br>
-        <img src="{{ '/bundles/hello/images/image_test.png' | imagine_filter('my_thumb') }}"/>
-    </div>
+<div>
+  LiipImagineBundle in action:<br>
+  <img src="{{ '/bundles/hello/images/test.png'
+    | imagine_filter('my_thumb') }}"/>
+</div>
 
-    <div>
-        LiipImagineBundle in action:<br>
-        <img src="{{ '/bundles/hello/images/image_test.png' | imagine_filter('my_thumb', true) }}"/>
-    </div>
-
+<div>
+  LiipImagineBundle in action:<br>
+  <img src="{{ '/bundles/hello/images/test.png'
+    | imagine_filter('my_thumb', true) }}"/>
+</div>
 
 {% endblock content %}
             </pre>
