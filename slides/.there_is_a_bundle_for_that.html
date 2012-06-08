@@ -247,24 +247,23 @@ class AcmeMyExtension extends Extension
                 </a></li>
             </ul>
             <pre class="brush: php">
-use Symfony\C..\Config\Definition\Builder\TreeBuilder;
-use Symfony\C..\Config\Definition\ConfigurationInterface;
+use Symfony\C..\Config\Definition as Def;
 
-class Configuration implements ConfigurationInterface
+class Configuration implements Def\ConfigurationInterface
 {
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
+        $treeBuilder = new Def\Builder\TreeBuilder();
 
         $treeBuilder->root('acme_my')
-            ->children()
-                ->scalarNode('host')
-                    ->isRequired()->cannotBeEmpty()->end()
-                ->scalarNode('port')
-                    ->defaultValue(2000)->end()
-                ->scalarNode('timeout')
-                    ->defaultValue(30000)->end()
-            ->end()
+        ->children()
+            ->scalarNode('host')
+                ->isRequired()->cannotBeEmpty()->end()
+            ->scalarNode('port')
+                ->defaultValue(2000)->end()
+            ->scalarNode('timeout')
+                ->defaultValue(30000)->end()
+        ->end()
         ;
 
         return $treeBuilder;
