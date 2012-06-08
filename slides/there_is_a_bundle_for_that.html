@@ -379,9 +379,32 @@ notifications: [ email: [ travis-ci@liip.ch ] ]
 
         <!-- Stof -->
         <div class="slide">
-            <h2>How to extend a Bundle</h2>
+            <h2>How to extend a Bundle: overriding templates</h2>
             <ul>
-                <li>http://symfony.com/doc/current/cookbook/bundles/inheritance.html</li>
+                <li>app/Resources/FOSUserBundle/views/Security/login.html.twig</li>
+                <li>Or create a child bundle</li>
+                <li>src/Acme/MyBundle/Resources/views/Security/login.html.twig</li>
+            </ul>
+            <pre class="brush: php">
+use Symfony\Component\HttpKernel\Bundle\Bundle;
+
+class MyBundle extends Bundle
+{
+    public function getParent()
+    {
+        return 'FOSUserBundle';
+    }
+}
+            </pre>
+        </div>
+
+        <!-- Stof -->
+        <div class="slide">
+            <h2>How to extend a Bundle: overriding controllers</h2>
+            <ul>
+                <li>Create a child bundle</li>
+                <li>src/Acme/MyBundle/Controller/SecurityController.php</li>
+                <li>Remember to define all actions needed by the routing</li>
             </ul>
         </div>
 
