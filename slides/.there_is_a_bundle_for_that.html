@@ -276,6 +276,7 @@ class Configuration implements Def\ConfigurationInterface
             <ul>
                 <li>Default dependency management as of Symfony 2.1</li>
                 <li>Bundles should be registered on <a href="http://packagist.org/">Packagist</a></li>
+                <li>Use <a href="https://github.com/composer/satis/">Packagist</a> to create your own composer index</li>
                 <li>Make sure to enable the "Packagist" commit hook</li>
             </ul>
             <pre class="brush: plain">
@@ -350,6 +351,7 @@ class HomepageTest extends WebTestCase
                 <li>Just create a ".travis.yml" file</li>
                 <li>Enable github hook to run tests automatically</li>
                 <li>Test against multiple PHP versions, library versions and DBs</li>
+                <li>Easily also run the tests when forking a Github repository</li>
             </ul>
             <pre class="brush: plain">
 language: php
@@ -437,10 +439,9 @@ class MyBundle extends Bundle
             <h2>FOSUserBundle</h2>
             <ul>
                 <li>Provides user management for your project</li>
-                <li>Integrates with SecurityBundlet</li>
+                <li>Integrates with SecurityBundle</li>
                 <li>Controllers for registration, password resetting...</li>
-                <li>Supports Doctrine ORM, MongoDB ODM, CouchDB ODM, Propel</li>
-                <li>... and add your own storage layer</li>
+                <li>Supports Doctrine ORM, MongoDB ODM, CouchDB ODM, Propel ... and add your own storage layer</li>
             </ul>
         </div>
 
@@ -486,49 +487,6 @@ class RestController extends Controller
 
         <!-- lsmith77 -->
         <div class="slide">
-            <h2>JMSSerializerBundle</h2>
-            <ul>
-                <li>Expands on the core Serializer</li>
-                <li>Implements visitor pattern to give more flexibility</li>
-                <li>More flexible handling to return different structures for JSON and XML</li>
-                <li>Most effective when (de)serializing from/to Object Graphs</li>
-                <li>Additional features like versioning, group based serialization rule sets etc.</li>
-            </ul>
-        </div>
-
-        <!-- lsmith77 -->
-        <div class="slide">
-            <h2>JMSSerializerBundle</h2>
-            <pre class="brush: php">
-use JMS\SerializerBundle\Annotation as Serializer;
-use JMS\SerializerBundle\Annotation\XmlList;
-
-use Doctrine\Common\Collections\Collection;
-
-/**
- * @Serializer\XmlRoot("response")
- */
-class Response
-{
-    /**
-     * @var Collection
-     * @XmlList(inline = true, entry = "article")
-     */
-    protected $articles;
-
-    protected $page;
-
-    public function __construct(Collection $a, $page)
-    {
-        $this->articles = $a;
-        $this->page = $page;
-    }
-}
-            </pre>
-        </div>
-
-        <!-- lsmith77 -->
-        <div class="slide">
             <h2>FOSRestBundle</h2>
             <ul>
                 <li>Provides a set of services and listeners to help in building REST APIs</li>
@@ -567,6 +525,49 @@ class RestController extends Controller
         $articles = array('bim', 'bam', 'bingo');
 
         return new Response($articles, $page);
+    }
+}
+            </pre>
+        </div>
+
+        <!-- lsmith77 -->
+        <div class="slide">
+            <h2>JMSSerializerBundle</h2>
+            <ul>
+                <li>Expands on the core Serializer</li>
+                <li>Implements visitor pattern to give more flexibility</li>
+                <li>More flexible handling to return different structures for JSON and XML</li>
+                <li>Most effective when (de)serializing from/to Object Graphs</li>
+                <li>Additional features like versioning, group based serialization rule sets etc.</li>
+            </ul>
+        </div>
+
+        <!-- lsmith77 -->
+        <div class="slide">
+            <h2>JMSSerializerBundle</h2>
+            <pre class="brush: php">
+use JMS\SerializerBundle\Annotation as Serializer;
+use JMS\SerializerBundle\Annotation\XmlList;
+
+use Doctrine\Common\Collections\Collection;
+
+/**
+ * @Serializer\XmlRoot("response")
+ */
+class Response
+{
+    /**
+     * @var Collection
+     * @XmlList(inline = true, entry = "article")
+     */
+    protected $articles;
+
+    protected $page;
+
+    public function __construct(Collection $a, $page)
+    {
+        $this->articles = $a;
+        $this->page = $page;
     }
 }
             </pre>
@@ -645,7 +646,7 @@ class Post
                     <ul>
                         <li>"standard" menu</li>
                         <li>breadcrumb</li>
-                        <li>...)</li>
+                        <li>...</li>
                     </ul>
                 </li>
                 <li>Pluggable data providers</li>
@@ -656,7 +657,7 @@ class Post
         <div class="slide">
             <h2>LiipImagineBundle</h2>
             <ul>
-                <li>Integration with the imagine image manipilation library</li>
+                <li>Integration with the imagine image manipulation library</li>
                 <li>Define filter groups to dynamically apply to images</li>
                 <li>Automatically defines routes for each filter groups</li>
                 <li>Optional pluggable cacheing</li>
