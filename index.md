@@ -4,7 +4,7 @@ title: FriendsOfSymfony
 ---
 
 FriendsOfSymfony
-======
+================
 
 [FriendsOfSymfony][fos] is a group of people collaborating on the [knpLabs][knpLabs] UserBundle that felt it would be nice to have a vendor namespace to use for this and future Bundles that are maintained together, which has since led to the creation of several popular Bundles.
 
@@ -47,6 +47,11 @@ Not many and really the idea is to just talk to all the other members when in do
  * Obvious stuff can be committed without review
  * Non obvious stuff should try to get review from at least one more member
  * Try to use feature branches for larger changes
+
+Slides
+------
+
+ * [There is a bundle for that](slides/there_is_a_bundle_for_that.html), Symfony Live Paris 2012
 
 [channel]: irc://irc.freenode.org:6665/symfony-dev
 [freenode]: http://freenode.org
