@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <!-- Slide meta data, remove/edit as you see fit -->
+    <title>Le composant Config\Definition</title>
+    <meta name="author" content="Christophe Coevoet" />
+    <meta name="company" content="LogSafe SAS" />
+    <meta name="email" content="stof@notk.org" />
+    <meta name="date" content="2012-05-09" />
+    <meta name="venue" content="AFSY, sfPot" />
+    <!-- Slippy core file and dependencies -->
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.history.js"></script>
+    <script type="text/javascript" src="slippy.js"></script>
+    <!-- Slippy structural styles -->
+    <link type="text/css" rel="stylesheet" href="slippy.css" />
+    <!-- Slippy theme -->
+    <link type="text/css" rel="stylesheet" href="slippy-pure.css" />
+    <!-- Syntax highlighting core file  -->
+    <script type="text/javascript" src="highlighter/shCore.js"></script>
+    <!-- Syntax highlighting brushes, remove those you don't need -->
+    <script type="text/javascript" src="highlighter/shBrushBash.js"></script>
+    <script type="text/javascript" src="highlighter/shBrushCpp.js"></script>
+    <script type="text/javascript" src="highlighter/shBrushCSharp.js"></script>
+    <script type="text/javascript" src="highlighter/shBrushCss.js"></script>
+    <script type="text/javascript" src="highlighter/shBrushDelphi.js"></script>
+    <script type="text/javascript" src="highlighter/shBrushDiff.js"></script>
+    <script type="text/javascript" src="highlighter/shBrushGroovy.js"></script>
+    <script type="text/javascript" src="highlighter/shBrushJava.js"></script>
+    <script type="text/javascript" src="highlighter/shBrushJScript.js"></script>
+    <script type="text/javascript" src="highlighter/shBrushPhp.js"></script>
+    <script type="text/javascript" src="highlighter/shBrushPlain.js"></script>
+    <script type="text/javascript" src="highlighter/shBrushPython.js"></script>
+    <script type="text/javascript" src="highlighter/shBrushRuby.js"></script>
+    <script type="text/javascript" src="highlighter/shBrushScala.js"></script>
+    <script type="text/javascript" src="highlighter/shBrushSql.js"></script>
+    <script type="text/javascript" src="highlighter/shBrushVb.js"></script>
+    <script type="text/javascript" src="highlighter/shBrushXml.js"></script>
+    <!-- Syntax highlighting styles-->
+    <link type="text/css" rel="stylesheet" href="highlighter/shCore.css" />
+    <link type="text/css" rel="stylesheet" href="highlighter/shThemeEclipse.css" />
+    <!-- Slippy init code -->
+    <script type="text/javascript">
+        $(function () {
+            $(".slide").slippy({
+                // settings go here
+                // possible values are:
+                //  - animLen, duration for default animations (0 = disabled)
+                //  - animInForward, receives a slide and animates it
+                //  - animInRewind, receives a slide and animates it
+                //  - animOutForward, receives a slide and animates it
+                //  - animOutRewind, receives a slide and animates it
+                //  - baseWidth, defines the base for img resizing, if you don't want only
+                //    full-width images, specify this as the pixel width of a slide so that
+                //    images are scaled properly (default is 620px wide)
+                //  - ratio, defines the width/height ratio of the slides, defaults to 1.3 (620x476)
+                //  - margin, the fraction of screen to use as slide margin, defaults to 0.15
+            });
+            SyntaxHighlighter.all();
+        });
+    </script>
+    <!-- Custom style for this deck -->
+    <style type="text/css">
+        body {
+            background: #fff;
+            background-color: #ffffff;
+            background-image: -webkit-radial-gradient(50% 50%, ellipse closest-side, #ffffff, #ccc 100%);
+            background-image: -moz-radial-gradient(50% 50%, ellipse closest-side, #ffffff, #ccc 100%);
+            background-image: -o-radial-gradient(50% 50%, ellipse closest-side, #ffffff, #ccc 100%);
+            background-image: -ms-radial-gradient(50% 50%, ellipse closest-side, #ffffff, #ccc 100%);
+            background-image: radial-gradient(50% 50%, ellipse closest-side, #ffffff, #ccc 100%);
+        }
+
+        div.syntaxhighlighter {
+            background: #aaa !important;
+        }
+
+        .footer {
+            margin-bottom: 0px;
+        }
+
+        body.slide-1 .slideDisplay, body.slide-background .slideDisplay {
+            display: none;
+        }
+
+        body.slide-1 .footer {
+            display: none;
+        }
+
+        .slideDisplay {
+            color: #eee;
+        }
+
+        a, a:link {
+            text-decoration: none;
+        }
+
+        .slide.left h1 {
+            text-align: left;
+            font-size: 1.2em;
+        }
+
+        h1 {
+            line-height: 130%;
+        }
+
+        ul li {
+            line-height: 130%;
+        }
+
+        p {
+            margin-bottom: .7em;
+        }
+
+        img.round {
+            border-radius: 10px;
+        }
+
+        .outline {
+            color: #000;
+            text-shadow: 0 0 3px #fff;
+        }
+
+        .reverse {
+            color: #fff;
+            text-shadow: 0 0 3px #000;
+        }
+
+        .output, .xdebug-var-dump {
+            display: block;
+            background: #ffd;
+            padding: .5em;
+            margin-bottom: .5em;
+            white-space: pre;
+        }
+
+        .slide em {
+            color: #00b;
+        }
+    </style>
+</head>
+<body>
+<div class="slide">
+    <div class="vcenter">
+        <h1 class="vcenter">Le composant Config\Definition</h1>
+
+        <h1>Stof</h1>
+    </div>
+</div>
+
+<div class="slide">
+    <h1 class="vcenter"><em>array_merge</em>, et bien plus...</h1>
+</div>
+
+<div class="slide">
+    <h1>Buts du composant Config\Definition</h1>
+
+    <h2>Merger plusieurs tableaux ensemble</h2>
+    <ul>
+        <li>en normalisant le format des données</li>
+        <li>en validant le type des données</li>
+        <li>en validant les données contenues dans le tableau</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Premier cas simple</h1>
+
+    <div class="incremental">
+        <p>Tableaux en entrée:</p>
+        <pre class="brush: php">
+            array(
+                'foo' => 'bar',
+                'bar' => array('some', 'awesome', 'thing'),
+                'baz' => array('first' => true, 'second' => true),
+            )
+
+            array(
+                'foo' => 'baz',
+                'bar' => array('other', 'stuff'),
+                'baz' => array('first' => false),
+            )
+        </pre>
+    </div>
+
+    <div class="incremental">
+        <p>Résultat attendu:</p>
+        <pre class="brush: php">
+            array(
+                'foo' => 'baz',
+                'bar' => array('some', 'awesome', 'thing', 'other', 'stuff'),
+                'baz' => array('first' => false, 'second' => true),
+            )
+        </pre>
+    </div>
+</div>
+
+<div class="slide">
+    <h1>Functions simples: array_merge</h1>
+
+    <pre class="brush: php">
+        $config = array_merge(
+            array(
+                'foo' => 'bar',
+                'bar' => array('some', 'awesome', 'thing'),
+                'baz' => array('first' => true, 'second' => true),
+            ),
+            array(
+                'foo' => 'baz',
+                'bar' => array('other', 'stuff'),
+                'baz' => array('first' => false),
+            )
+        );
+    </pre>
+    <code dir="ltr" class="xdebug-var-dump output incremental">
+    <b>array</b>
+      'foo' <font color="#888a85">=&gt;</font> <small>string</small> <font color="#cc0000">'baz'</font> <i>(length=3)</i>
+      'bar' <font color="#888a85">=&gt;</font>
+        <b>array</b>
+          0 <font color="#888a85">=&gt;</font> <small>string</small> <font color="#cc0000">'other'</font> <i>(length=5)</i>
+          1 <font color="#888a85">=&gt;</font> <small>string</small> <font color="#cc0000">'stuff'</font> <i>(length=5)</i>
+      'baz' <font color="#888a85">=&gt;</font>
+        <b>array</b>
+          'first' <font color="#888a85">=&gt;</font> <small>boolean</small> <font color="#75507b">false</font>
+          'second' <font color="#888a85">=&gt;</font> <small>boolean</small> <font color="#75507b">true</font>
+    </code>
+    <p class="incremental"><em>Remarque:</em> array_replace fait la même chose pour un tablea associatif.</p>
+</div>
+
+<div class="slide">
+    <h1>Functions simples: array_merge_recursive</h1>
+
+    <p>Nos configurations sont souvent sur plusieurs niveaux.</p>
+    <p>Premier essai: <em>array_merge_recursive</em></p>
+    <pre class="brush: php">
+        $config = array_merge_recursive(
+            array(
+                'foo' => 'bar',
+                'bar' => array('some', 'thing'),
+                'baz' => array('first' => true, 'second' => true),
+            ),
+            array(
+                'foo' => 'baz',
+                'bar' => array('other', 'awesome', 'stuff'),
+                'baz' => array('first' => false),
+            )
+        );
+    </pre>
+</div>
+
+<div class="slide" data-layout="alt">
+    <h1>Functions simples: array_merge_recursive</h1>
+
+    <code dir="ltr" class="xdebug-var-dump output">
+        <b>array</b>
+          'foo' <font color="#888a85">=&gt;</font>
+            <b>array</b>
+              0 <font color="#888a85">=&gt;</font> <small>string</small> <font color="#cc0000">'bar'</font> <i>(length=3)</i>
+              1 <font color="#888a85">=&gt;</font> <small>string</small> <font color="#cc0000">'baz'</font> <i>(length=3)</i>
+          'bar' <font color="#888a85">=&gt;</font>
+            <b>array</b>
+              0 <font color="#888a85">=&gt;</font> <small>string</small> <font color="#cc0000">'some'</font> <i>(length=4)</i>
+              1 <font color="#888a85">=&gt;</font> <small>string</small> <font color="#cc0000">'awesome'</font> <i>(length=7)</i>
+              2 <font color="#888a85">=&gt;</font> <small>string</small> <font color="#cc0000">'thing'</font> <i>(length=5)</i>
+              3 <font color="#888a85">=&gt;</font> <small>string</small> <font color="#cc0000">'other'</font> <i>(length=5)</i>
+              4 <font color="#888a85">=&gt;</font> <small>string</small> <font color="#cc0000">'stuff'</font> <i>(length=5)</i>
+          'baz' <font color="#888a85">=&gt;</font>
+            <b>array</b>
+              'first' <font color="#888a85">=&gt;</font>
+                <b>array</b>
+                  0 <font color="#888a85">=&gt;</font> <small>boolean</small> <font color="#75507b">true</font>
+                  1 <font color="#888a85">=&gt;</font> <small>boolean</small> <font color="#75507b">false</font>
+              'second' <font color="#888a85">=&gt;</font> <small>boolean</small> <font color="#75507b">true</font>
+    </code>
+    <h2 class="incremental"><em>Echec</em> dès qu'un tableau associatif entre en scène</h2>
+</div>
+
+<div class="slide">
+    <h1>Functions simples: array_replace_recursive</h1>
+
+    <p>Nos configurations sont souvent sur plusieurs niveaux.</p>
+    <p>Deuxième essai: <em>array_replace_recursive</em></p>
+    <pre class="brush: php">
+        $config = array_replace_recursive(
+            array(
+                'foo' => 'bar',
+                'bar' => array('some', 'awesome', 'thing'),
+                'baz' => array('first' => true, 'second' => true),
+            ),
+            array(
+                'foo' => 'baz',
+                'bar' => array('other', 'stuff'),
+                'baz' => array('first' => false, 'second' => true),
+            )
+        );
+    </pre>
+</div>
+
+<div class="slide" data-layout="alt">
+    <h1>Functions simples: array_replace_recursive</h1>
+
+    <code dir="ltr" class="xdebug-var-dump output"><b>array</b>
+      'foo' <font color="#888a85">=&gt;</font> <small>string</small> <font color="#cc0000">'baz'</font> <i>(length=3)</i>
+      'bar' <font color="#888a85">=&gt;</font>
+        <b>array</b>
+          0 <font color="#888a85">=&gt;</font> <small>string</small> <font color="#cc0000">'other'</font> <i>(length=5)</i>
+          1 <font color="#888a85">=&gt;</font> <small>string</small> <font color="#cc0000">'stuff'</font> <i>(length=5)</i>
+          2 <font color="#888a85">=&gt;</font> <small>string</small> <font color="#cc0000">'thing'</font> <i>(length=5)</i>
+      'baz' <font color="#888a85">=&gt;</font>
+        <b>array</b>
+          'first' <font color="#888a85">=&gt;</font> <small>boolean</small> <font color="#75507b">false</font>
+          'second' <font color="#888a85">=&gt;</font> <small>boolean</small> <font color="#75507b">true</font>
+    </code>
+    <h2 class="incremental"><em>Echec</em> dès qu'un tableau non-associatif entre en scène</h2>
+</div>
+
+<div class="slide" data-layout="alt">
+    <h1 class="vcenter">Les functions standards de PHP ne suffisent pas !</h1>
+</div>
+
+<div class="slide" data-layout="alt">
+    <div class="vcenter">
+        <h1 class="big">Symfony2 est là pour nous aider !</h1>
+        <h1><a href="https://github.com/symfony/Config">https://github.com/symfony/Config</a></h1>
+    </div>
+</div>
+
+<div class="slide">
+    <h1>La construction de l'arbre</h1>
+
+    <pre class="brush: php">
+        $treeBuilder = new \Symfony\Component\Config\Definition\Builder\TreeBuilder();
+
+        $root = $tb->root('my_config');
+
+        $root
+            ->children()
+                ->scalarNode('foo')->end()
+                ->arrayNode('bar')
+                    ->prototype('scalar')->end()
+                ->end()
+                ->arrayNode('baz')
+                    ->children()
+                        ->booleanNode('first')->end()
+                        ->booleanNode('second')->end()
+                    ->end()
+                ->end()
+            ->end();
+
+    </pre>
+</div>
+
+<div class="slide">
+    <h1>L'utilisation de cet arbre sur nos données</h1>
+
+    <pre class="brush: php">
+        $input = array(
+            array(
+                'foo' => 'bar',
+                'bar' => array('some', 'awesome', 'thing'),
+                'baz' => array('first' => true, 'second' => true),
+            ),
+            array(
+                'foo' => 'baz',
+                'bar' => array('other', 'stuff'),
+                'baz' => array('first' => false),
+            ),
+        );
+
+        $processor = new \Symfony\Component\Config\Definition\Processor();
+
+        $tree = $treeBuilder->buildTree();
+
+        $config = $processor->process($tree, $input);
+    </pre>
+</div>
+
+<div class="slide">
+    <h1>La victoire avec Symfony</h1>
+
+    <code class='xdebug-var-dump'>
+    <b>array</b>
+      'foo' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'baz'</font> <i>(length=3)</i>
+      'bar' <font color='#888a85'>=&gt;</font>
+        <b>array</b>
+          0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'some'</font> <i>(length=4)</i>
+          1 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'awesome'</font> <i>(length=7)</i>
+          2 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'thing'</font> <i>(length=5)</i>
+          3 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'other'</font> <i>(length=5)</i>
+          4 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'stuff'</font> <i>(length=5)</i>
+      'baz' <font color='#888a85'>=&gt;</font>
+        <b>array</b>
+          'first' <font color='#888a85'>=&gt;</font> <small>boolean</small> <font color='#75507b'>false</font>
+          'second' <font color='#888a85'>=&gt;</font> <small>boolean</small> <font color='#75507b'>true</font>
+    </code>
+    <h2>Voici notre configuration !</h2>
+</div>
+
+<div class="slide" data-layout="alt">
+    <h1>Nouveau défi: ajouter des valeurs par défaut</h1>
+
+    <h2>La structure de la configuration doit rester la même, mais on veut maintenant obtenir ce résultat quand aucune donnée n'est passée</h2>
+
+    <pre class="brush: php">
+        $tb = new TreeBuilder();
+        $root = $tb->root('my_config');
+
+        $root
+            ->children()
+                ->scalarNode('foo')->defaultValue('baz')->end()
+                ->arrayNode('bar')
+                    ->defaultValue(array('some', 'awesome', 'thing', 'other', 'stuff'))
+                    ->prototype('scalar')->end()
+                ->end()
+                ->arrayNode('baz')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->booleanNode('first')->defaultFalse()->end()
+                        ->booleanNode('second')->defaultTrue()->end()
+                    ->end()
+                ->end()
+            ->end();
+    </pre>
+    <p>
+        <em>Remarque:</em> Pour le noeud prototypé, la valeur par défault n'est appliquée que s'il n'est jamais ajouté.<br />
+        Pour ajouter des éléments présents quelque soit l'entrée, il faut rajouter un tableau dans les entrées.
+    </p>
+</div>
+
+<div class="slide">
+    <h1>Nouveau défi: normaliser les données</h1>
+
+    <div class="incremental">
+        <p>Tableaux en entrée:</p>
+        <pre class="brush: php">
+            $input = array(
+                array(
+                    'foo' => 'bar',
+                    'baz' => array('first' => true, 'second' => true, 'third' => array('foo' => true)),
+                ),
+                array(
+                    'foo' => 'baz',
+                    'baz' => array('first' => array(true, false), 'third' => false),
+                ),
+            );
+        </pre>
+    </div>
+
+    <div class="incremental">
+        <p>Résultat attendu:</p>
+        <pre class="brush: php">
+            array(
+                'foo' => 'baz',
+                'baz' => array(
+                    'first' => array(true, true, false),
+                    'second' => true,
+                    'third' => array('foo' => true, 'default' => false),
+                ),
+            )
+        </pre>
+    </div>
+</div>
+
+<div class="slide" data-layout="alt">
+    <h1>La construction de l'arbre</h1>
+
+    <pre class="brush: php">
+        $treeBuilder = new \Symfony\Component\Config\Definition\Builder\TreeBuilder();
+
+        $root = $tb->root('my_config');
+
+        $root
+            ->children()
+                ->arrayNode('baz')
+                    ->children()
+                        ->arrayNode('first')
+                            ->beforeNormalization()
+                                ->ifTrue(function($v) {return is_scalar($v);})
+                                ->then(function($v) {return array($v);})
+                            ->end()
+                            ->prototype('boolean')->end()
+                        ->end()
+                        ->booleanNode('second')->end()
+                        ->arrayNode('third')
+                            ->useAttributeAsKey('key')
+                            ->beforeNormalization()
+                                ->ifTrue(function($v) {return is_scalar($v);})
+                                ->then(function($v) {return array('default' => $v);})
+                            ->end()
+                            ->prototype('boolean')->end()
+                        ->end()
+                    ->end()
+                ->end()
+                ->scalarNode('foo')->end()
+            ->end();
+    </pre>
+</div>
+
+<div class="slide">
+    <h1>Et voilà le résultat</h1>
+
+    <code class='xdebug-var-dump' dir='ltr'>
+    <b>array</b>
+      'baz' <font color='#888a85'>=&gt;</font>
+        <b>array</b>
+          'first' <font color='#888a85'>=&gt;</font>
+            <b>array</b>
+              0 <font color='#888a85'>=&gt;</font> <small>boolean</small> <font color='#75507b'>true</font>
+              1 <font color='#888a85'>=&gt;</font> <small>boolean</small> <font color='#75507b'>true</font>
+              2 <font color='#888a85'>=&gt;</font> <small>boolean</small> <font color='#75507b'>false</font>
+          'second' <font color='#888a85'>=&gt;</font> <small>boolean</small> <font color='#75507b'>true</font>
+          'third' <font color='#888a85'>=&gt;</font>
+            <b>array</b>
+              'foo' <font color='#888a85'>=&gt;</font> <small>boolean</small> <font color='#75507b'>true</font>
+              'default' <font color='#888a85'>=&gt;</font> <small>boolean</small> <font color='#75507b'>false</font>
+      'foo' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'baz'</font> <i>(length=3)</i>
+    </code>
+</div>
+
+<div class="slide" data-layout="alt">
+    <h1>Valider les données</h1>
+    <h2>Règles disponibles de base</h2>
+
+    <pre class="brush: php">
+        $root
+            ->children()
+                ->scalarNode('foo')->defaultValue('baz')->cannotBeEmpty()->end()
+                ->scalarNode('can be defined only once')->cannotBeOverwritten()->isRequired()->end()
+                ->arrayNode('bar')
+                    ->requiresAtLeastOneElement()
+                    ->defaultValue(array('some'))
+                    ->prototype('scalar')->end()
+                ->end()
+                ->arrayNode('baz')
+                    ->children()
+                        ->booleanNode('first')->isRequired()->end()
+                        ->booleanNode('second')->defaultTrue()->end()
+                    ->end()
+                ->end()
+            ->end();
+    </pre>
+    <pre class="brush: php">
+        $input = array(
+            array('foo' => ''),
+        );
+    </pre>
+    <code class="output"><em>Symfony\Component\Config\Definition\Exception\InvalidConfigurationException</em>
+The path "my_config.foo" cannot contain an empty value, but got "".</code>
+</div>
+
+<div class="slide" data-layout="alt">
+    <h1>Valider les données</h1>
+    <h2>Règles disponibles de base</h2>
+
+    <pre class="brush: php">
+        $root
+            ->children()
+                ->scalarNode('foo')->defaultValue('baz')->cannotBeEmpty()->end()
+                ->scalarNode('can be defined only once')->cannotBeOverwritten()->isRequired()->end()
+                ->arrayNode('bar')
+                    ->requiresAtLeastOneElement()
+                    ->defaultValue(array('some'))
+                    ->prototype('scalar')->end()
+                ->end()
+                ->arrayNode('baz')
+                    ->children()
+                        ->booleanNode('first')->isRequired()->end()
+                        ->booleanNode('second')->defaultTrue()->end()
+                    ->end()
+                ->end()
+            ->end();
+    </pre>
+    <pre class="brush: php">
+        $input = array(
+        );
+    </pre>
+    <code class="output"><em>Symfony\Component\Config\Definition\Exception\InvalidConfigurationException</em>
+The child node "can be defined only once" at path "my_config" must be
+configured.</code>
+</div>
+
+<div class="slide" data-layout="alt">
+    <h1>Valider les données</h1>
+    <h2>Règles disponibles de base</h2>
+
+    <pre class="brush: php">
+        $root
+            ->children()
+                ->scalarNode('foo')->defaultValue('baz')->cannotBeEmpty()->end()
+                ->scalarNode('can be defined only once')->cannotBeOverwritten()->isRequired()->end()
+                ->arrayNode('bar')
+                    ->requiresAtLeastOneElement()
+                    ->defaultValue(array('some'))
+                    ->prototype('scalar')->end()
+                ->end()
+                ->arrayNode('baz')
+                    ->children()
+                        ->booleanNode('first')->isRequired()->end()
+                        ->booleanNode('second')->defaultTrue()->end()
+                    ->end()
+                ->end()
+            ->end();
+    </pre>
+    <pre class="brush: php">
+        $input = array(
+            array('can be defined only once' => 3),
+            array('can be defined only once' => 4),
+        );
+    </pre>
+    <code class="output"><em>Symfony\Component\Config\Definition\Exception\ForbiddenOverwriteException</em>
+Configuration path "my_config.can be defined only once" cannot be
+overwritten. You have to define all options for this path, and any of
+its sub-paths in one configuration section.</code>
+</div>
+
+<div class="slide" data-layout="alt">
+    <h1>Valider les données</h1>
+    <h2>Règles disponibles de base</h2>
+
+    <pre class="brush: php">
+        $root
+            ->children()
+                ->scalarNode('foo')->defaultValue('baz')->cannotBeEmpty()->end()
+                ->scalarNode('can be defined only once')->cannotBeOverwritten()->isRequired()->end()
+                ->arrayNode('bar')
+                    ->requiresAtLeastOneElement()
+                    ->defaultValue(array('some'))
+                    ->prototype('scalar')->end()
+                ->end()
+                ->arrayNode('baz')
+                    ->children()
+                        ->booleanNode('first')->isRequired()->end()
+                        ->booleanNode('second')->defaultTrue()->end()
+                    ->end()
+                ->end()
+            ->end();
+    </pre>
+    <pre class="brush: php">
+        $input = array(
+            array('can be defined only once' => 4),
+            array('bar' => array()),
+        );
+    </pre>
+    <code class="output"><em>Symfony\Component\Config\Definition\Exception\InvalidConfigurationException</em>
+The path "my_config.bar" should have at least 1 element(s) defined.</code>
+</div>
+
+<div class="slide" data-layout="alt">
+    <h1>Valider les données</h1>
+    <h2>Règles disponibles de base</h2>
+
+    <pre class="brush: php">
+        $root
+            ->children()
+                ->scalarNode('foo')->defaultValue('baz')->cannotBeEmpty()->end()
+                ->scalarNode('can be defined only once')->cannotBeOverwritten()->isRequired()->end()
+                ->arrayNode('bar')
+                    ->requiresAtLeastOneElement()
+                    ->defaultValue(array('some'))
+                    ->prototype('scalar')->end()
+                ->end()
+                ->arrayNode('baz')
+                    ->children()
+                        ->booleanNode('first')->isRequired()->end()
+                        ->booleanNode('second')->defaultTrue()->end()
+                    ->end()
+                ->end()
+            ->end();
+    </pre>
+    <pre class="brush: php">
+        $input = array(
+            array('foo' => 'bar', 'can be defined only once' => 4),
+            array('baz' => array('second' => false)),
+        );
+    </pre>
+    <code class="output"><em>Symfony\Component\Config\Definition\Exception\InvalidConfigurationException</em>
+The child node "first" at path "my_config.baz" must be configured.</code>
+</div>
+
+<div class="slide" data-layout="alt">
+    <h1>Valider les données</h1>
+    <h2>Règles disponibles de base</h2>
+
+    <pre class="brush: php">
+        $root
+            ->children()
+                ->scalarNode('foo')->defaultValue('baz')->cannotBeEmpty()->end()
+                ->scalarNode('can be defined only once')->cannotBeOverwritten()->isRequired()->end()
+                ->arrayNode('bar')
+                    ->requiresAtLeastOneElement()
+                    ->defaultValue(array('some'))
+                    ->prototype('scalar')->end()
+                ->end()
+                ->arrayNode('baz')
+                    ->children()
+                        ->booleanNode('first')->isRequired()->end()
+                        ->booleanNode('second')->defaultTrue()->end()
+                    ->end()
+                ->end()
+            ->end();
+    </pre>
+    <pre class="brush: php">
+        $input = array(
+            array('can be defined only once' => 4),
+            array('baz' => array('first' => false)),
+        );
+    </pre>
+    <p><em>Configuration acceptée</em></p>
+</div>
+
+<div class="slide" data-layout="alt">
+    <h1>Valider les données</h1>
+    <h2>Règles personnalisées</h2>
+
+    <pre class="brush: php">
+        $root
+            ->children()
+                ->scalarNode('foo')
+                    ->defaultValue('pouet')
+                    ->validate()
+                        ->ifNotInArray(array('foo', 'bar', 'baz'))
+                        ->thenInvalid('The value %s is not allowed')
+                    ->end()
+                    ->validate()
+                        ->ifTrue(function($v) {return 'baz' === $v;})
+                        ->then(function($v) {return 'hello ' . $v;})
+                    ->end()
+                ->end()
+            ->end();
+    </pre>
+</div>
+
+<div class="slide">
+    <h1>Souvenir, souvenir</h1>
+    <h2>Comportement d'array_merge_recursive</h2>
+
+    <pre class="brush: php">
+        $config = array_merge_recursive(
+            array(
+                'baz' => array('first' => true, 'second' => true),
+            ),
+            array(
+                'baz' => array('first' => false),
+            )
+        );
+    </pre>
+
+    <code dir="ltr" class="xdebug-var-dump output">
+        <b>array</b>
+          'baz' <font color="#888a85">=&gt;</font>
+            <b>array</b>
+              'first' <font color="#888a85">=&gt;</font>
+                <b>array</b>
+                  0 <font color="#888a85">=&gt;</font> <small>boolean</small> <font color="#75507b">true</font>
+                  1 <font color="#888a85">=&gt;</font> <small>boolean</small> <font color="#75507b">false</font>
+              'second' <font color="#888a85">=&gt;</font> <small>boolean</small> <font color="#75507b">true</font>
+    </code>
+</div>
+
+<div class="slide">
+    <h1>Souvenir, souvenir</h1>
+    <h2>Comportement d'array_merge_recursive</h2>
+
+    <pre class="brush: php">
+        function getNode($name) {
+            $tb = new TreeBuilder();
+
+            return $tb->root($name)
+                ->beforeNormalization()
+                    ->ifTrue(function($v) {return is_scalar($v);})
+                    ->then(function($v) {return array($v);})
+                ->end()
+                ->prototype('boolean')->end()
+                ->validate()
+                    ->ifTrue(function($v) {return 1 === count($v);})
+                    ->then(function($v) {return current($v);})
+                ->end();
+        }
+
+        $root
+            ->children()
+                ->arrayNode('baz')
+                    ->append(getNode('first'))
+                    ->append(getNode('second'))
+                ->end()
+            ->end();
+    </pre>
+</div>
+
+<div class="slide">
+    <h1>Souvenir, souvenir</h1>
+    <h2>Comportement d'array_merge_recursive</h2>
+
+    <code dir="ltr" class="xdebug-var-dump output">
+        <b>array</b>
+          'baz' <font color="#888a85">=&gt;</font>
+            <b>array</b>
+              'first' <font color="#888a85">=&gt;</font>
+                <b>array</b>
+                  0 <font color="#888a85">=&gt;</font> <small>boolean</small> <font color="#75507b">true</font>
+                  1 <font color="#888a85">=&gt;</font> <small>boolean</small> <font color="#75507b">false</font>
+              'second' <font color="#888a85">=&gt;</font> <small>boolean</small> <font color="#75507b">true</font>
+    </code>
+</div>
+
+<div class="slide">
+    <h1 class="vcenter">Merci</h1>
+</div>
+
+<div class="slide">
+    <h1 class="vcenter">Questions ?</h1>
+</div>
+
+<div class="layout" data-name="default">
+    <content></content>
+    <div class="footer">
+        <span class="left">Christophe Coevoet</span>
+        <span class="right">Github <a href="http://github.com/stof/">stof</a></span>
+        <span class="right">Twitter <a href="http://twitter.com/Stof70">@Stof70</a></span>
+        <hr class="defloat" />
+    </div>
+</div>
+
+<div class="layout nofooter" data-name="alt">
+    <content></content>
+</div>
+</body>
+</html>
