@@ -6,14 +6,17 @@ title: FriendsOfSymfony
 FriendsOfSymfony
 ================
 
-[FriendsOfSymfony][fos] is a group of people collaborating on the [knpLabs][knpLabs] UserBundle that felt it would be nice to have a vendor namespace to use for this and future Bundles that are maintained together, which has since led to the creation of several popular Bundles.
+[FriendsOfSymfony][fos] started as a group of people collaborating on the [knpLabs][knpLabs] UserBundle that
+felt it would be nice to have a vendor namespace to use for this and future Bundles that are maintained
+together, which has since led to the creation of several popular Bundles.
 
 How do I get in touch?
 ----------------------
 
-Most of us hang out almost 24/7 in the [#symfony-dev][channel] IRC channel on [freenode][freenode].
+Several of us hang out in the [#symfony-dev][channel] IRC channel on [freenode][freenode].
 There is also the [friendsofsymfony-dev@googlegroups.com][mailinglist]. Finally if you want to
-ask for a vote (for example to propose a new topic) create a ticket on the [friendsofsymfony.github.com repository][fosrepo]
+ask for a vote (for example to propose a new topic) create a ticket on the
+[friendsofsymfony.github.com repository][fosrepo]
 
 I want to join!
 ---------------
@@ -23,14 +26,17 @@ The point is to enable collaboration among most of the members.
 
 If there isn't enough overlap with the existing members, just create a new vendor namespace and invite others to join.
 
-Also the idea is to keep the numbers of members somewhat manageable so that its easy to keep everyone in the loop so that there is no need to have complex organizational structures.
+Also the idea is to keep the numbers of members somewhat manageable so that its easy to keep everyone in the loop so
+that there is no need to have complex organizational structures.
 
-Again vendor namespaces are free, so no reason to create complexity by trying to do everything in one vendor namespace, after all then there wouldn't be a need for vendor namespaces to begin with.
+Again vendor namespaces are free, so no reason to create complexity by trying to do everything in one vendor
+namespace, after all then there wouldn't be a need for vendor namespaces to begin with.
 
 So this is some sort of elitist club?
 -------------------------------------
 
-Not at all. Again keeping the number of members small is just for practical purposes not because we want to exclude others or lack respect for other developers.
+Not at all. Again keeping the number of members small is just for practical purposes not because we want
+to exclude others or lack respect for other developers.
 
 Actually we do expect that other vendor namespaces will appear with their own way of working
 and their own focus topics which some of us will want to join as well.
