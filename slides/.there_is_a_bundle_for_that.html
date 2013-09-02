@@ -74,7 +74,7 @@
             <h2>There is a Bundle for that</h2>
         </div>
 
-        <!-- Stof -->
+        <!-- Stof
         <div class="slide">
             <h2>Christophe Coevoet</h2>
 
@@ -84,21 +84,21 @@
                 <li><a href="http://twitter.com/Stof70">@Stof70</a></li>
             </ul>
         </div>
+         -->
 
-        <!-- lsmith77 -->
+        <!-- lsmith77
         <div class="slide">
             <h2>Lukas Kahwe Smith</h2>
 
             <ul>
                 <li>PEAR Group founder</li>
                 <li>PHP 5.3 co-release manager</li>
-                <li>Symfony2, Doctrine, PHPCR, Jackalope, Travis-CI ..</li>
-                <li>unofficial liason between Symfony2 and Drupal</li>
+                <li>Symfony2 (CMF), Doctrine, PHPCR, Jackalope, Travis-CI ..</li>
                 <li><a href="http://pooteeweet.org">http://pooteeweet.org</a> | <a href="http://twitter.com/lsmith">@lsmith</a></li>
             </ul>
         </div>
+         -->
 
-        <!-- lsmith77 -->
         <div class="slide">
             <h2>What is a Bundle?</h2>
             <ul>
@@ -108,7 +108,6 @@
             </ul>
         </div>
 
-        <!-- lsmith77 -->
         <div class="slide">
             <h2>What can Bundle do?</h2>
             <ul>
@@ -148,7 +147,6 @@
             <h1>PLEASE PLEASE PLEASE check knpbundles.com before you write a new Bundle!</h1>
         </div>
 
-        <!-- lsmith77 -->
         <div class="slide">
             <h2>Bundles best practices: <a href="http://symfony.com/doc/current/cookbook/bundles/best_practices.html">Bundle dir structure</a></h2>
             <ul>
@@ -163,10 +161,19 @@
                         <li>MyController.php</li>
                     </ul>
                 </li>
-                <li>Entity/Document
+                <li>Doctrine
+                    <ul>
+                        <li>ORM
+                            <ul>
+                                <li>Foo.php</li>
+                                <li>FooRepository.php</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>Model
                     <ul>
                         <li>Foo.php</li>
-                        <li>FooRepository.php (*)</li>
                     </ul>
                 </li>
                 <li>Resources
@@ -181,10 +188,9 @@
                 <li>...</li>
             </ul>
             <br />
-            <h4>(*) Some <a href="http://groups.google.com/group/symfony-devs/browse_frm/thread/40602f04e931ac9/d1f6520aa59253d4">discussions</a> about changing this.</h4>
+            <h4>See also <a href="http://symfony.com/doc/master/cmf/contributing/bundles.html">Symfony2 CMF</a> best practices.</h4>
         </div>
 
-        <!-- Stof -->
         <div class="slide">
             <h2>Bundles best practices: <a href="http://symfony.com/doc/current/cookbook/bundles/extension.html">DIC configuration</a></h2>
             <ul>
@@ -205,7 +211,6 @@
             </ul>
         </div>
 
-        <!-- Stof -->
         <div class="slide">
             <h2>Bundles best practices: <a href="http://symfony.com/doc/current/cookbook/bundles/extension.html">DIC configuration</a></h2>
             <pre class="brush: php">
@@ -236,7 +241,6 @@ class AcmeMyExtension extends Extension
             </pre>
         </div>
 
-        <!-- Stof -->
         <div class="slide">
             <h2>Bundles best practices: Configuration class</h2>
             <ul>
@@ -270,7 +274,6 @@ class Configuration implements Def\ConfigurationInterface
             </pre>
         </div>
 
-        <!-- Stof -->
         <div class="slide">
             <h2>Bundles best practices: <a href="http://getcomposer.org/">Composer</a></h2>
             <ul>
@@ -293,7 +296,7 @@ class Configuration implements Def\ConfigurationInterface
     ],
     "require": {
         "php":                      ">=5.3.3",
-        "symfony/framework-bundle": ">=2.0,<2.2-dev",
+        "symfony/framework-bundle": "~2.2",
     },
     "autoload": {
         "psr-0": { "Acme\\MyBundle": "" }
@@ -303,7 +306,6 @@ class Configuration implements Def\ConfigurationInterface
             </pre>
         </div>
 
-        <!-- Stof -->
         <div class="slide">
             <h2>Bundles best practices: Tests</h2>
             <ul>
@@ -344,7 +346,6 @@ class HomepageTest extends WebTestCase
             </pre>
         </div>
 
-        <!-- lsmith77 -->
         <div class="slide">
             <h2>Bundles best practices: <a href="http://travis-ci.org/">Travis-CI</a></h2>
             <ul>
@@ -359,30 +360,33 @@ language: php
 php:
     - 5.3
     - 5.4
+    - 5.5
 
 env:
-    - DB=mysql
-    - DB=pgsql
+  - SYMFONY_VERSION=2.2.*
+  - SYMFONY_VERSION=2.3.*
+  - SYMFONY_VERSION=dev-master
 
 before_script:
-- wget -nc http://getcomposer.org/composer.phar
-- php composer.phar install --dev
-- tests/${DB}_setup.sh
+  - composer require symfony/symfony:${SYMFONY_VERSION} --prefer-source
+  - vendor/symfony-cmf/testing/bin/travis/phpcr_odm_doctrine_dbal.sh
 
 script: phpunit --coverage-text
-
-notifications: [ email: [ travis-ci@liip.ch ] ]
             </pre>
         </div>
 
-        <!-- Stof -->
         <div class="slide">
             <h2>How to extend a Bundle: overriding templates</h2>
             <ul>
-                <li>app/Resources/FOSUserBundle/views/Security/login.html.twig</li>
-                <li>Or create a child bundle</li>
-                <li>src/Acme/MyBundle/Resources/views/Security/login.html.twig</li>
+                <li>Use the app Resource dir:<br />app/Resources/FOSUserBundle/views/Security/login.html.twig</li>
+                <li>Or create a child bundle:<br />src/Acme/MyBundle/Resources/views/Security/login.html.twig</li>
             </ul>
+
+            <h2>How to extend a Bundle: overriding controllers</h2>
+            <ul>
+                <li>Create a child bundle:<br />src/Acme/MyBundle/Controller/SecurityController.php</li>
+            </ul>
+
             <pre class="brush: php">
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -396,17 +400,6 @@ class MyBundle extends Bundle
             </pre>
         </div>
 
-        <!-- Stof -->
-        <div class="slide">
-            <h2>How to extend a Bundle: overriding controllers</h2>
-            <ul>
-                <li>Create a child bundle</li>
-                <li>src/Acme/MyBundle/Controller/SecurityController.php</li>
-                <li>Remember to define all actions needed by the routing</li>
-            </ul>
-        </div>
-
-        <!-- Stof -->
         <div class="slide">
             <h2>How to fix a bug and submit a PR</h2>
             <ul>
@@ -420,7 +413,6 @@ class MyBundle extends Bundle
             <h2><img src="edit_on_github.png" alt="Edit on Github"/></h2>
         </div>
 
-        <!-- Stof -->
         <div class="slide">
             <h2>How to fix a bug and submit a PR</h2>
             <ul>
@@ -434,7 +426,6 @@ class MyBundle extends Bundle
             <h2><img src="fork.png" alt="Fork on Github and submit a Pull Request"/></h2>
         </div>
 
-        <!-- Stof -->
         <div class="slide">
             <h2>FOSUserBundle</h2>
             <ul>
@@ -445,7 +436,6 @@ class MyBundle extends Bundle
             </ul>
         </div>
 
-        <!-- Stof -->
         <div class="slide">
             <h2>JMSSecurityExtraBundle</h2>
             <ul>
@@ -485,7 +475,6 @@ class RestController extends Controller
             </pre>
         </div>
 
-        <!-- lsmith77 -->
         <div class="slide">
             <h2>FOSRestBundle</h2>
             <ul>
@@ -500,24 +489,26 @@ class RestController extends Controller
             </ul>
         </div>
 
-        <!-- lsmith77 -->
         <div class="slide">
             <h2>FOSRestBundle</h2>
             <pre class="brush: php">
 use Acme\MyBundle\Response;
 
-class RestController extends Controller
+class RestController
 {
-    /**
+  /**
      * Get the list of articles
-     * liip_hello_rest_get_articles
-     * /liip/hello/rest/articles.{_format} (GET)
+     * route name: liip_hello_rest_get_articles
+     * pattern: /liip/hello/rest/articles.{_format}
+     * http method requirement: GET
      *
      * @param string $page page number
      * @return array data
      *
      * @View()
-     * @QueryParam(name="page", requirements="\d+", default="1")
+     * @QueryParam(name="page",
+     *             requirements="\d+",
+     *             default="1")
      * @ApiDoc()
      */
     public function getArticlesAction($page)
@@ -530,7 +521,6 @@ class RestController extends Controller
             </pre>
         </div>
 
-        <!-- lsmith77 -->
         <div class="slide">
             <h2>JMSSerializerBundle</h2>
             <ul>
@@ -542,7 +532,6 @@ class RestController extends Controller
             </ul>
         </div>
 
-        <!-- lsmith77 -->
         <div class="slide">
             <h2>JMSSerializerBundle</h2>
             <pre class="brush: php">
@@ -573,7 +562,6 @@ class Response
             </pre>
         </div>
 
-        <!-- lsmith77 -->
         <div class="slide">
             <h2>FOSRestBundle</h2>
             <pre class="brush: plain">
@@ -606,7 +594,6 @@ class Response
             </pre>
         </div>
 
-        <!-- Stof -->
         <div class="slide">
             <h2>StofDoctrineExtensionBundle</h2>
             <ul>
@@ -636,7 +623,6 @@ class Post
             </pre>
         </div>
 
-        <!-- Stof -->
         <div class="slide">
             <h2>KnpMenuBundle</h2>
             <ul>
@@ -653,19 +639,17 @@ class Post
             </ul>
         </div>
 
-        <!-- lsmith77 -->
         <div class="slide">
             <h2>LiipImagineBundle</h2>
             <ul>
                 <li>Integration with the imagine image manipulation library</li>
                 <li>Define filter groups to dynamically apply to images</li>
                 <li>Automatically defines routes for each filter groups</li>
-                <li>Optional pluggable cacheing</li>
+                <li>Optional pluggable caching</li>
                 <li>Define custom loaders (filesystem, database etc.)</li>
             </ul>
         </div>
 
-        <!-- lsmith77 -->
         <div class="slide">
             <h2>LiipImagineBundle</h2>
             <pre class="brush: plain">
@@ -700,11 +684,10 @@ class Post
 
                 <p>.. and what are you looking for?</p>
 
-                <p>.. tell us what feature you need in your next project and lets see if we can find a Bundle for you ..</p>
+                <p>.. what feature you need in your next project and lets see if we can find a Bundle for you ..</p>
             </div>
         </div>
 
-        <!-- lsmith77 -->
         <div class="slide">
             <h2>Github projects</h2>
             <ul>
@@ -718,7 +701,6 @@ class Post
             </ul>
         </div>
 
-        <!-- lsmith77 -->
         <div class="slide">
             <h2>Resources</h2>
             <ul>
