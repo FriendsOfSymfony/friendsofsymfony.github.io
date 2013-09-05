@@ -13,7 +13,7 @@ together, which has since led to the creation of several popular Bundles.
 How do I get in touch?
 ----------------------
 
-Several of us hang out in the [#symfony-dev][channel] IRC channel on [freenode][freenode].
+Several of us hang out in the [#symfony][channel] IRC channel on [freenode][freenode].
 There is also the [friendsofsymfony-dev@googlegroups.com][mailinglist]. Finally if you want to
 ask for a vote (for example to propose a new topic) create a ticket on the
 [friendsofsymfony.github.com repository][fosrepo]
@@ -60,7 +60,7 @@ Slides
  * *FR* [Le composant Config\\Definition](slides/config_definition.html), sfPot Paris May 2012
  * [There is a bundle for that](slides/there_is_a_bundle_for_that.html), Symfony Live Paris 2012, updated for ezSummerCamp 2013
 
-[channel]: irc://irc.freenode.org:6665/symfony-dev
+[channel]: irc://irc.freenode.org:6665/symfony
 [freenode]: http://freenode.org
 [fosrepo]: https://github.com/FriendsOfSymfony/friendsofsymfony.github.com
 [fos]: https://github.com/FriendsOfSymfony
