@@ -58,7 +58,7 @@ Slides
 ------
 
  * *FR* [Le composant Config\\Definition](slides/config_definition.html), sfPot Paris May 2012
- * [There is a bundle for that](slides/there_is_a_bundle_for_that.html), Symfony Live Paris 2012
+ * [There is a bundle for that](slides/there_is_a_bundle_for_that.html), Symfony Live Paris 2012, updated for ezSummerCamp 2013
 
 [channel]: irc://irc.freenode.org:6665/symfony-dev
 [freenode]: http://freenode.org
