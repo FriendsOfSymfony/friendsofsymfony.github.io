@@ -476,6 +476,47 @@ class RestController extends Controller
         </div>
 
         <div class="slide">
+            <h2>JMSSerializerBundle</h2>
+            <ul>
+                <li>Expands on the core Serializer</li>
+                <li>Implements visitor pattern to give more flexibility</li>
+                <li>More flexible handling to return different structures for JSON and XML</li>
+                <li>Most effective when (de)serializing from/to Object Graphs</li>
+                <li>Additional features like versioning, group based serialization rule sets etc.</li>
+            </ul>
+        </div>
+
+        <div class="slide">
+            <h2>JMSSerializerBundle</h2>
+            <pre class="brush: php">
+use JMS\SerializerBundle\Annotation as Serializer;
+use JMS\SerializerBundle\Annotation\XmlList;
+
+use Doctrine\Common\Collections\Collection;
+
+/**
+ * @Serializer\XmlRoot("response")
+ */
+class Response
+{
+    /**
+     * @var Collection
+     * @XmlList(inline = true, entry = "article")
+     */
+    protected $articles;
+
+    protected $page;
+
+    public function __construct(Collection $a, $page)
+    {
+        $this->articles = $a;
+        $this->page = $page;
+    }
+}
+            </pre>
+        </div>
+
+        <div class="slide">
             <h2>FOSRestBundle</h2>
             <ul>
                 <li>Provides a set of services and listeners to help in building REST APIs</li>
@@ -522,47 +563,6 @@ class RestController
         </div>
 
         <div class="slide">
-            <h2>JMSSerializerBundle</h2>
-            <ul>
-                <li>Expands on the core Serializer</li>
-                <li>Implements visitor pattern to give more flexibility</li>
-                <li>More flexible handling to return different structures for JSON and XML</li>
-                <li>Most effective when (de)serializing from/to Object Graphs</li>
-                <li>Additional features like versioning, group based serialization rule sets etc.</li>
-            </ul>
-        </div>
-
-        <div class="slide">
-            <h2>JMSSerializerBundle</h2>
-            <pre class="brush: php">
-use JMS\SerializerBundle\Annotation as Serializer;
-use JMS\SerializerBundle\Annotation\XmlList;
-
-use Doctrine\Common\Collections\Collection;
-
-/**
- * @Serializer\XmlRoot("response")
- */
-class Response
-{
-    /**
-     * @var Collection
-     * @XmlList(inline = true, entry = "article")
-     */
-    protected $articles;
-
-    protected $page;
-
-    public function __construct(Collection $a, $page)
-    {
-        $this->articles = $a;
-        $this->page = $page;
-    }
-}
-            </pre>
-        </div>
-
-        <div class="slide">
             <h2>FOSRestBundle</h2>
             <pre class="brush: plain">
                 <html>
@@ -592,6 +592,19 @@ class Response
                   "page": "2"
                 }
             </pre>
+        </div>
+
+        <div class="slide">
+            <h2>NelmioApiDocBundle</h2>
+            <ul>
+                <li>Generates REST API documentation based on routing data</li>
+                <li>Integrated with FOSRestBundle and JMSSerializerBundle</li>
+                <li>Provides a sandbox to try out REST API calls inside the UI</li>
+            </ul>
+
+            <br />
+
+            <h2><img src="nelmio_api_doc_bundle.png" alt="NelmioApiDocBundle"/></h2>
         </div>
 
         <div class="slide">
@@ -708,12 +721,13 @@ class Post
             <h2>Github projects</h2>
             <ul>
                 <li><a href="http://github.com/friendsOfSymfony/FOSUserBundle">FOSUserBundle</a></li>
+                <li><a href="http://github.com/schmittjoh/JMSSecurityExtraBundle">JMSSecurityExtraBundle</a></li>
                 <li><a href="http://github.com/schmittjoh/JMSSerializerBundle">JMSSerializerBundle</a></li>
                 <li><a href="http://github.com/friendsOfSymfony/FOSRestBundle">FOSRestBundle</a></li>
-                <li><a href="http://github.com/schmittjoh/JMSSecurityExtraBundle">JMSSecurityExtraBundle</a></li>
+                <li><a href="http://github.com/nelmio/NelmioApiDocBundle">NelmioApiDocBundle</a></li>
                 <li><a href="http://github.com/stof/StofDoctrineExtensionBundle">StofDoctrineExtensionBundle</a></li>
-                <li><a href="http://github.com/liip/LiipImagineBundle">LiipImagineBundle</a></li>
                 <li><a href="http://github.com/knplabs/KnpMenuBundle">KnpMenuBundle</a></li>
+                <li><a href="http://github.com/liip/LiipImagineBundle">LiipImagineBundle</a></li>
             </ul>
         </div>
         <div class="slide">
