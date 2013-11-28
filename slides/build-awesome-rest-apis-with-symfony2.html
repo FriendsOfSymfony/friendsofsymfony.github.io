@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Build Awesome REST APIs With Symfony2 | Lukas Kahwe Smith, William Durand</title>
+        <link rel="stylesheet" href="css/reveal.min.css">
+        <link rel="stylesheet" href="css/serif-theme.css" id="theme">
+        <link rel="stylesheet" href="css/zenburn.css">
+        <link rel="stylesheet" href="css/pageNumbers.css">
+        <link rel="stylesheet" href="css/custom.css">
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section>
+                    <h1 class="title">Build Awesome REST APIs With Symfony2</h1>
+                    <em>Lukas Kahwe Smith, William Durand - December 12, 2013</em>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ...
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Thank You.
+
+                        ### Questions?
+                    </script>
+                </section>
+            </div>
+        </div>
+        <script type="text/javascript" src="js/head.min.js"></script>
+        <script type="text/javascript" src="js/reveal.min.js"></script>
+        <script type="text/javascript">
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+
+                theme: Reveal.getQueryHash().theme,
+                transition: Reveal.getQueryHash().transition || 'concave',
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                    { src: 'js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'js/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'js/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'js/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'js/pageNumbers.js' },
+                ]
+            });
+        </script>
+    </body>
+</html>
