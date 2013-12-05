@@ -90,12 +90,12 @@
                             ## JSON
 
                                 {
-                                "articles": [
-                                    "bim",
-                                    "bam",
-                                    "bingo"
-                                ],
-                                "page": "2"
+                                    "articles": [
+                                        "bim",
+                                        "bam",
+                                        "bingo"
+                                    ],
+                                    "page": "2"
                                 }
                         </script>
                     </section>
@@ -122,15 +122,17 @@
                             ## Media Types
 
                             * Identifies a representation format
-                            * Custom types «application/vnd.»
+                            * Custom types use "application/vnd.[XYZ]"
                             * Used inside the Accept / Content-Type headers
 
-                            <br>
+                            <br><center>
 
                             | Header       | Description                     |
                             | ------------ |---------------------------------|
                             | Content-Type | HTTP message format             |
                             | Accept       | HTTP response format preference |
+
+                            </center>
                         </script>
                     </section>
                     <section data-markdown>
@@ -139,7 +141,7 @@
 
                             * Finding appropriate response format
                             * No standardized algorithm available
-                            * But Apache [mod_negotiation](http://httpd.apache.org/docs/2.4/content-negotiation.html) algorithm is well documented
+                            * Apache [mod_negotiation](http://httpd.apache.org/docs/2.4/content-negotiation.html) algorithm is documented
                             * Also covers encoding (`Accept-Encoding`) and language (`Accept-Language`) negotiation
                         </script>
                     </section>
@@ -147,17 +149,19 @@
                         <script type="text/template">
                             ## Example
 
-                                Accept: application/json, application/xml;q=0.9, text/html;q=0.8, \
-                                        tex/*;q=0.7, */*;q=0.5
+                                Accept: application/json, application/xml;q=0.9, text/html;q=0.8,
+                                        text/*;q=0.7, */*;q=0.5
 
-                            <br>
+                            <br><center>
 
-                            | Priority |        Description                      |
-                            | -------- |-----------------------------------------|
-                            | q=0.9    | `application/json` or `application/xml` |
-                            | q=0.8    | `text/html`                             |
-                            | q=0.7    | `text/*` (any text)                     |
-                            | q=0.5    | `*/*` (anything)                        |
+                            | Priority |        Description                  |
+                            | -------- |-------------------------------------|
+                            | `q=0.9`  | `application/json` or `application/xml` |
+                            | `q=0.8`  | `text/html`                           |
+                            | `q=0.7`  | `text/*` (ie. any text)               |
+                            | `q=0.5`  | `*/*` (ie. media type)                |
+
+                            </center>
                         </script>
                     </section>
                 </section>
@@ -183,21 +187,21 @@
                             ## Usage
 
                                 use JMS\SerializerBundle\Annotation as Serializer;
-                                 
+                                 
                                 /** @Serializer\XmlRoot("response") */
                                 class MyResponse
                                 {
-                                    /** * @Serializer\XmlList(inline=true, entry="article") */
-                                    protected $articles;
-                                 
-                                    /** * @Serializer\XmlAttribute() */
-                                    protected $page;
-                                 
-                                    public function __construct(Collection $articles, $page)
-                                    {
-                                        $this->articles = $articles;
-                                        $this->page = $page;
-                                    }
+                                    /** * @Serializer\XmlList(inline=true, entry="article") */
+                                    protected $articles;
+                                 
+                                    /** * @Serializer\XmlAttribute() */
+                                    protected $page;
+                                 
+                                    public function __construct(Collection $articles, $page)
+                                    {
+                                        $this->articles = $articles;
+                                        $this->page = $page;
+                                    }
                                 }
                         </script>
                     </section>
@@ -218,7 +222,7 @@
                     </section>
                     <section data-markdown>
                         <script type="text/template">
-                            It’s all about state transitions.
+                            It's all about state transitions.
 
                             ...
                         </script>
@@ -315,7 +319,7 @@
 
                             | URIs                        | URI Template                    |
                             |-----------------------------|---------------------------------|
-                            | http://example.com/~fred/   | http://example.com/~{username}/ |
+                            | http://example.com/~fred/   | http://example.com/~{username}/ |
                             | http://example.com/~mark/   |                                 |
                         </script>
                     </section>
