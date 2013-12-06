@@ -187,16 +187,16 @@
                             ## Usage
 
                                 use JMS\SerializerBundle\Annotation as Serializer;
-                                 
+
                                 /** @Serializer\XmlRoot("response") */
                                 class MyResponse
                                 {
                                     /** * @Serializer\XmlList(inline=true, entry="article") */
                                     protected $articles;
-                                 
+
                                     /** * @Serializer\XmlAttribute() */
                                     protected $page;
-                                 
+
                                     public function __construct(Collection $articles, $page)
                                     {
                                         $this->articles = $articles;
@@ -317,19 +317,37 @@
 
                             <br>
 
-                            | URIs                        | URI Template                    |
-                            |-----------------------------|---------------------------------|
-                            | http://example.com/~fred/   | http://example.com/~{username}/ |
-                            | http://example.com/~mark/   |                                 |
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>URIs</th>
+                                        <th>URI Template</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><a href="http://example.com/~fred/">http://example.com/~fred/</a></td>
+                                        <td rowspan="2"><a href="http://example.com/~{username}/">http://example.com/~{username}/</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="http://example.com/~mark/">http://example.com/~mark/</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </script>
                     </section>
                     <section data-markdown>
                         <script type="text/template">
                             ## Usage
 
+                                demo_route:
+                                    pattern: /demo
+
+                            <p />
+
                                 $templateLink = $this
                                     ->get('hautelook.router.template')
-                                    ->generate('hautelook_demo_route', array(
+                                    ->generate('demo_route', array(
                                         'page'   => '{page}',
                                         'sort'   => array('{sort}'),
                                         'filter' => array('{filter}'),
@@ -361,26 +379,30 @@
                         </script>
                     </section>
                     <section data-markdown>
-                        ## Usage
+                        <script type="text/template">
+                            ## Usage
 
-                            use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-
-                            /**
-                             * This the documentation description of your method, it will appear
-                             * on a specific pane. It will read all the text until the first
-                             * annotation.
-                             *
-                             * @ApiDoc(
-                             *  description="This is a description of your API method",
-                             *  filters={
-                             *      {"name"="f1", "dataType"="integer"}
-                             *      {"name"="f2", "dataType"="string", "pattern"="(foo|bar) ASC|DESC"}
-                             *  }
-                             * )
-                             */
-                            public function getAction()
-                            {
-                            }
+                                /**
+                                 * List all notes.
+                                 *
+                                 * @ApiDoc(
+                                 *   resource = true,
+                                 *   statusCodes = { 200 = "Returned when successful" }
+                                 * )
+                                 * @QueryParam(
+                                 *   name="offset", requirements="\d+", nullable=true,
+                                 *   description="Offset from which to start listing notes."
+                                 * )
+                                 * @QueryParam(
+                                 *   name="limit", requirements="\d+", default="5",
+                                 *   description="How many notes to return."
+                                 * )
+                                 */
+                                public function getNotesAction() {}
+                        </script>
+                    </section>
+                    <section>
+                        <img src="images/apidocbundle.png" class="no-border" />
                     </section>
                 </section>
                 <section data-markdown>
@@ -405,6 +427,55 @@
                         * Listener to return a 200 response for HEAD requests after the security listener has finished
                         * Listener to move flash messages into a cookie
                     </script>
+                </section>
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## OAuth
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            OAuth is an **open protocol** to allow **secure authorization**<br>in a simple and
+                            **standard method** from web, mobile<br>and desktop applications.
+
+                            <br>
+                            It is an **authorization framework** that enables a third-party application to
+                            **obtain limited access to an HTTP service**.
+
+                            <p>
+                                <br><br>
+                                <small>
+                                    [http://licpro.williamdurand.fr/security-slides/#slide83](http://licpro.williamdurand.fr/security-slides/#slide83)
+                                </small>
+                            </p>
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## HWIOAuthBundle
+
+                            * Client-side implementation of OAuth2
+                            * Support 20+ different providers
+                            * Supports both OAuth1.0a and OAuth2
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## FOSOAuthServerBundle
+
+                            * Server-side implementation of OAuth2
+                            * Supports Doctrine ORM|ODM, Propel
+                            * Highly configurable
+
+                            <br>
+
+                            Thank you [Alan Gabriel Bem](https://github.com/alanbem) for helping us!
+
+                            <br>
+                            [BazingaOAuthServerBundle](https://github.com/willdurand/BazingaOAuthServerBundle) for OAuth1.0a.
+                        </script>
+                    </section>
                 </section>
             </div>
         </div>

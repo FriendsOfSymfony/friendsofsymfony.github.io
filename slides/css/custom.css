@@ -14,3 +14,9 @@ h1.title {
     border: 2px solid black;
     padding: 4px;
 }
+
+img.no-border {
+    border: 0 !important;
+    box-shadow: none !important;
+    background: none !important;
+}
