@@ -7,6 +7,12 @@
         <link rel="stylesheet" href="css/zenburn.css">
         <link rel="stylesheet" href="css/pageNumbers.css">
         <link rel="stylesheet" href="css/custom.css">
+        <script>
+            document.write('<link rel="stylesheet" href="css/' +
+                (window.location.search.match(/print-pdf/gi) ? 'pdf' : 'paper') +
+                '.css" type="text/css" media="print">'
+            );
+        </script>
     </head>
     <body>
         <div class="reveal">
