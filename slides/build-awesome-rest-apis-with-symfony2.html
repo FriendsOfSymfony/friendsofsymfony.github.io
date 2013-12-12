@@ -18,6 +18,48 @@
                 <section>
                     <section data-markdown>
                         <script type="text/template">
+                            ## JMSSerializerBundle
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## In A Nutshell
+
+                            * Integrates the JMS Serializer library with Symfony2
+                            * Enables (de)**serialization of object graphs**
+                            * Implements visitor pattern to enable flexibility
+                            * Fully leverage native JSON and XML
+                            * Custom **exclusion strategies** to determine what to serialize
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Usage
+
+                                use JMS\SerializerBundle\Annotation as Serializer;
+
+                                /** @Serializer\XmlRoot("response") */
+                                class MyResponse
+                                {
+                                    /** * @Serializer\XmlList(inline=true, entry="article") */
+                                    protected $articles;
+
+                                    /** * @Serializer\XmlAttribute() */
+                                    protected $page;
+
+                                    public function __construct(Collection $articles, $page)
+                                    {
+                                        $this->articles = $articles;
+                                        $this->page = $page;
+                                    }
+                                }
+                        </script>
+                    </section>
+                </section>
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
                             ## FOSRestBundle
                         </script>
                     </section>
@@ -25,14 +67,15 @@
                         <script type="text/template">
                             ## In A Nutshell
 
-                            * Toolbox of services and listeners to build RESTful APIs
-                            * Generate HTML, XML, JSON from a single Controller action
-                            * Automatic generation of routes from Controller actions
+                            * **Toolbox of services** and listeners to build RESTful APIs
+                            * Generate HTML, XML, JSON from a single action
+                            * Automatic generation of routes from actions
+                            * GET parameter parsing and validation
+                            * Integration with Symfony2 serializer and JMS Serializer
+                            * Integration with SensioFrameworkExtraBundle
                             * Accept header negotiation
                             * Request body decoding
-                            * GET parameter parsing and validation
-                            * Integration with Symfony2 serializer and JMSSerializerBundle
-                            * Integration with SensioFrameworkExtraBundle
+
                         </script>
                     </section>
                     <section data-markdown>
@@ -122,15 +165,15 @@
                             ## Media Types
 
                             * Identifies a representation format
-                            * Custom types use "application/vnd.[XYZ]"
-                            * Used inside the Accept / Content-Type headers
+                            * Custom types use `application/vnd.[XYZ]`
+                            * Used inside the `Accept` / `Content-Type` headers
 
                             <br><center>
 
                             | Header       | Description                     |
                             | ------------ |---------------------------------|
-                            | Content-Type | HTTP message format             |
-                            | Accept       | HTTP response format preference |
+                            | `Content-Type` | HTTP message format             |
+                            | `Accept`       | HTTP response format preference |
 
                             </center>
                         </script>
@@ -140,7 +183,7 @@
                             ## Content Type Negotiation
 
                             * Finding appropriate response format
-                            * No standardized algorithm available
+                            * **No standardized algorithm available**
                             * Apache [mod_negotiation](http://httpd.apache.org/docs/2.4/content-negotiation.html) algorithm is documented
                             * Also covers encoding (`Accept-Encoding`) and language (`Accept-Language`) negotiation
                         </script>
@@ -152,11 +195,12 @@
                                 Accept: application/json, application/xml;q=0.9, text/html;q=0.8,
                                         text/*;q=0.7, */*;q=0.5
 
-                            <br><center>
+                            <p /><center>
 
                             | Priority |        Description                  |
                             | -------- |-------------------------------------|
-                            | `q=0.9`  | `application/json` or `application/xml` |
+                            | `q=1.0`  |  `application/json`                 |
+                            | `q=0.9`  | `application/xml` |
                             | `q=0.8`  | `text/html`                           |
                             | `q=0.7`  | `text/*` (ie. any text)               |
                             | `q=0.5`  | `*/*` (ie. media type)                |
@@ -164,45 +208,24 @@
                             </center>
                         </script>
                     </section>
-                </section>
-                <section>
                     <section data-markdown>
                         <script type="text/template">
-                            ## JMSSerializerBundle
-                        </script>
-                    </section>
-                    <section data-markdown>
-                        <script type="text/template">
-                            ## In A Nutshell
+                            ## Example Configuration
 
-                            * Integrates the JMS serializer component with Symfony2
-                            * Enables (de)serialization of object graphs
-                            * Implements visitor pattern to enable flexibility
-                            * Fully leverage native JSON and XML
-                            * Custom exclusion strategies to determine what to serialize
-                        </script>
-                    </section>
-                    <section data-markdown>
-                        <script type="text/template">
-                            ## Usage
+                                fos_rest:
+                                    format_listener:
+                                        rules:
+                                            -
+                                                path: ^/
+                                                priorities: [ html, json, xml ]
+                                                fallback_format: ~
+                                                prefer_extension: true
 
-                                use JMS\SerializerBundle\Annotation as Serializer;
+                            <p />
 
-                                /** @Serializer\XmlRoot("response") */
-                                class MyResponse
-                                {
-                                    /** * @Serializer\XmlList(inline=true, entry="article") */
-                                    protected $articles;
+                                Accept: application/json, application/xml;q=0.9, text/html;q=0.8,
+                                        text/*;q=0.7, */*;q=0.5
 
-                                    /** * @Serializer\XmlAttribute() */
-                                    protected $page;
-
-                                    public function __construct(Collection $articles, $page)
-                                    {
-                                        $this->articles = $articles;
-                                        $this->page = $page;
-                                    }
-                                }
                         </script>
                     </section>
                 </section>
@@ -216,15 +239,9 @@
                         <script type="text/template">
                             ## RMM Level 3
 
-                            <br>
-                            **H**ypermedia **a**s **t**he **E**ngine **o**f **A**pplication **S**tate (HATEOAS)
-                        </script>
-                    </section>
-                    <section data-markdown>
-                        <script type="text/template">
-                            It's all about state transitions.
+                            ![](images/rmm.png)
 
-                            ...
+                            **H**ypermedia **a**s **t**he **E**ngine **o**f **A**pplication **S**tate (HATEOAS)
                         </script>
                     </section>
                     <section data-markdown>
@@ -232,10 +249,10 @@
                             ## BazingaHateoasBundle
 
                             * Integrates the Hateoas library with Symfony2
-                            * Leverages the (JMS) Serializer library
+                            * Leverages the JMS Serializer library
                             * Relies on the Symfony2 **ExpressionLanguage** component
                             * Supports JSON and XML
-                            * Allows to configure links and embedded resources (XML, YAML, PHP, or Annotations)
+                            * Allows to configure **links** and **embedded resources** in<br>XML, YAML, PHP, or Annotations
                             * Dynamic relations (relation providers)
                             * Exclusion strategies
                         </script>
@@ -306,7 +323,7 @@
                 <section>
                     <section data-markdown>
                         <script type="text/template">
-                            ## TemplateUriBundle
+                            ## TemplatedUriBundle
                         </script>
                     </section>
                     <section data-markdown>
@@ -341,7 +358,7 @@
                             ## Usage
 
                                 demo_route:
-                                    pattern: /demo
+                                pattern: /demo/{page}
 
                             <p />
 
@@ -349,13 +366,13 @@
                                     ->get('hautelook.router.template')
                                     ->generate('demo_route', array(
                                         'page'   => '{page}',
-                                        'sort'   => array('{sort}'),
+                                        'sort'   => '{sort}',
                                         'filter' => array('{filter}'),
                                     ));
 
                             <br>
 
-                                /demo?{&page}{&sort%5B%5D*}{&filter%5B%5D*}
+                                /demo/{page}?{&sort}{&filter%5B%5D*}
                         </script>
                     </section>
                 </section>
@@ -369,7 +386,7 @@
                         <script type="text/template">
                             ## In A Nutshell
 
-                            * Generates documentation for your REST API (HTML, Markdown, or JSON)
+                            * Generates documentation for your REST APIs
                             * Gathers information from PHPDoc
                             * Supports FOSRestBundle, SensioFrameworkExtraBundle, JMSSerializerBundle
                               and JMSSecurityExtraBundle annotations
@@ -421,10 +438,10 @@
                     <script type="text/template">
                         ## LiipCacheControlBundle
 
-                        * Response listener to add Cache-Control headers
+                        * Response listener to add **`Cache-Control` headers**
                         * Listener matches the Request path/host/method/attributes
-                        * Varnish helper class to assist in purging/banning content
-                        * Listener to return a 200 response for HEAD requests after the security listener has finished
+                        * **Varnish helper** class to assist in purging/banning content
+                        * Listener to combine reverse proxies with Symfony2 security
                         * Listener to move flash messages into a cookie
                     </script>
                 </section>
@@ -455,7 +472,7 @@
                         <script type="text/template">
                             ## HWIOAuthBundle
 
-                            * Client-side implementation of OAuth2
+                            * Client-side implementation
                             * Support 20+ different providers
                             * Supports both OAuth1.0a and OAuth2
                         </script>
