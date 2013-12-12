@@ -1,0 +1,10 @@
+.reveal .controls div.slide-number {
+    width: 25px;
+    left: 27px;
+    top: 33px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 0.5em;
+    font-weight: bold;
+    opacity: 0.5;
+}
