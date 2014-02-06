@@ -60,6 +60,7 @@ Slides
  * *FR* [Le composant Config\\Definition](slides/config_definition.html), sfPot Paris May 2012
  * [There is a bundle for that](slides/there_is_a_bundle_for_that.html), Symfony Live Paris 2012, updated for ezSummerCamp 2013
  * [Build Awesome REST APIs With Symfony2](slides/build-awesome-rest-apis-with-symfony2.html), SymfonyCon Warsaw 2013
+ * [RESTing With Symfony2](slides/resting-with-symfony2.html), SunshinePHP Miami 2014
 
 [channel]: irc://irc.freenode.org:6665/symfony
 [freenode]: http://freenode.org
