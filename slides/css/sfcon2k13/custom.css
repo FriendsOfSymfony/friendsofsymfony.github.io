@@ -1,5 +1,8 @@
 h1.title {
     font-size: 2.5em !important;
+    -webkit-hyphens:manual;
+    -moz-hyphens:manual;
+    hyphens:manual;
 }
 
 .reveal table{
