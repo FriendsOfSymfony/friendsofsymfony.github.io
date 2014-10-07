@@ -19,7 +19,7 @@
             <div class="slides">
                 <section>
                     <h1 class="title">RESTing with Symfony2</h1>
-                    <em>Lukas Kahwe Smith - February 6th, 2014</em>
+                    <em>Lukas Kahwe Smith - October 10th, 2014</em>
                 </section>
 
                 <section>
@@ -195,7 +195,8 @@
 
                             * Safe means cacheable
                             * Idempotent: result independent on the # of executions
-                            * There is a debate if DELETE should be idempotent or not
+                            * There is a debate if DELETE should be idempotent or not,
+                              ie. what should be the response for a DELETE requests on a non existent resource?
                         </script>
                     </section>
                     <section data-markdown>
@@ -268,7 +269,7 @@
                 </section>
                 <section>
                     <section>
-                        <h1 class="title">Content Type Negotiation</h1>
+                        <h1 class="title">Content Negotiation</h1>
                     </section>
 
                     <section data-markdown>
@@ -300,7 +301,7 @@
                     </section>
                     <section data-markdown>
                         <script type="text/template">
-                            ## Content Type Negotiation
+                            ## Content Negotiation
 
                             * Finding appropriate response format
                             * **No standardized algorithm available**
@@ -312,8 +313,10 @@
                         <script type="text/template">
                             ## Example
 
-                                Accept: application/json, application/xml;q=0.9, text/html;q=0.8,
-                                        text/*;q=0.7, */*;q=0.5
+                            ```
+                            Accept: application/json, application/xml;q=0.9, text/html;q=0.8,
+                                    text/*;q=0.7, */*;q=0.5
+                            ```
 
                             <br /><center>
 
@@ -363,48 +366,54 @@
                         <script type="text/template">
                             ## Usage
 
-                                use JMS\SerializerBundle\Annotation as Serializer;
+                            ```
+                            use JMS\SerializerBundle\Annotation as Serializer;
 
-                                /** @Serializer\XmlRoot("response") */
-                                class MyResponse
+                            /** @Serializer\XmlRoot("response") */
+                            class MyResponse
+                            {
+                                /** * @Serializer\XmlList(inline=true, entry="article") */
+                                protected $articles;
+
+                                /** * @Serializer\XmlAttribute() */
+                                protected $page;
+
+                                public function __construct(Collection $articles, $page)
                                 {
-                                    /** * @Serializer\XmlList(inline=true, entry="article") */
-                                    protected $articles;
-
-                                    /** * @Serializer\XmlAttribute() */
-                                    protected $page;
-
-                                    public function __construct(Collection $articles, $page)
-                                    {
-                                        $this->articles = $articles;
-                                        $this->page = $page;
-                                    }
+                                    $this->articles = $articles;
+                                    $this->page = $page;
                                 }
+                            }
+                            ```
                         </script>
                     </section>
                     <section data-markdown>
                         <script type="text/template">
                             ## JSON
 
-                                {
-                                    "articles": [
-                                        "bim",
-                                        "bam",
-                                        "bingo"
-                                    ],
-                                    "page": "2"
-                                }
+                            ```
+                            {
+                                "articles": [
+                                    "bim",
+                                    "bam",
+                                    "bingo"
+                                ],
+                                "page": "2"
+                            }
+                            ```
                         </script>
                     </section>
                     <section data-markdown>
                         <script type="text/template">
                             ## XML
 
-                                <response page="2">
-                                    <article>bim</article>
-                                    <article>bam</article>
-                                    <article>bingo</article>
-                                </response>
+                            ```
+                            <response page="2">
+                                <article>bim</article>
+                                <article>bam</article>
+                                <article>bingo</article>
+                            </response>
+                            ```
                         </script>
                     </section>
                 </section>
@@ -427,6 +436,7 @@
                             * Integration with SensioFrameworkExtraBundle
                             * Accept header negotiation
                             * Request body decoding
+                            * API versioning
 
                         </script>
                     </section>
@@ -434,59 +444,100 @@
                         <script type="text/template">
                             ## Usage
 
-                                class RestController
+                            ```
+                            class RestController
+                            {
+                                /**
+                                * Get the list of articles
+                                * route name: liip_hello_rest_get_articles
+                                * pattern: /liip/hello/rest/articles.{_format}
+                                * http method requirement: GET
+                                *
+                                * @View()
+                                * @QueryParam(name="page", requirements="\d+", default="1")
+                                */
+                                public function getArticlesAction($page)
                                 {
-                                    /**
-                                    * Get the list of articles
-                                    * route name: liip_hello_rest_get_articles
-                                    * pattern: /liip/hello/rest/articles.{_format}
-                                    * http method requirement: GET
-                                    *
-                                    * @View()
-                                    * @QueryParam(name="page", requirements="\d+", default="1")
-                                    */
-                                    public function getArticlesAction($page)
-                                    {
-                                        $articles = array('bim', 'bam', 'bingo');
-                                        return new \Acme\MyBundle\MyResponse($articles, $page);
-                                    }
+                                    $articles = array('bim', 'bam', 'bingo');
+                                    return new \Acme\MyBundle\MyResponse($articles, $page);
                                 }
+                            }
+                            ```
                         </script>
                     </section>
                     <section data-markdown>
                         <script type="text/template">
                             ## HTML
 
-                                <html>
-                                    <body>
-                                        <div>
-                                            <div>bim</div>
-                                            <div>bam</div>
-                                            <div>bingo</div>
-                                        </div>
-                                        <div>page: 2</div>
-                                    </body>
-                                </html>
+                            ```
+                            <html>
+                                <body>
+                                    <div>
+                                        <div>bim</div>
+                                        <div>bam</div>
+                                        <div>bingo</div>
+                                    </div>
+                                    <div>page: 2</div>
+                                </body>
+                            </html>
+                            ```
                         </script>
                     </section>
                     <section data-markdown>
                         <script type="text/template">
-                            ## Content Type Negotiation
+                            ## Content Negotiation
 
-                                fos_rest:
-                                    format_listener:
-                                        rules:
-                                            -
-                                                path: ^/
-                                                priorities: [ html, json, xml ]
-                                                fallback_format: ~
-                                                prefer_extension: true
+                            ```
+                            fos_rest:
+                                format_listener:
+                                    rules:
+                                        -
+                                            path: ^/
+                                            priorities: [ html, json, xml ]
+                                            fallback_format: ~
+                                            prefer_extension: true
+                            ```
 
-                            <p />
+                            ```
+                            Accept: application/json, application/xml;q=0.9, text/html;q=0.8,
+                                text/*;q=0.7, */*;q=0.5
+                            ```
 
-                                Accept: application/json, application/xml;q=0.9, text/html;q=0.8,
-                                        text/*;q=0.7, */*;q=0.5
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Version Listener
 
+                            * Parse version information from a media type and automatically set it in JMS serializer
+
+                            ```
+                            fos_rest:
+                                view:
+                                    mime_types:
+                                        json:
+                                            - 'application/json'
+                                            - 'application/json;version=1.0'
+                                            - 'application/json;version=1.1'
+                                format_listener:
+                                    media_type:
+                                        version_regex: '/(v|version)=(?P<version>[0-9\.]+)/'
+                            ```
+
+                            ```
+                            Accept: application/vnd.my_entity;version=1.1
+                            ```
+
+                            ```
+                            class Person
+                            {
+                                /** @Until("1.0") */
+                                private $name;
+
+                                /** @Since("1.1") */
+                                private $lastname;
+                            }
+                            ```
                         </script>
                     </section>
                     <section data-markdown>
@@ -496,6 +547,23 @@
                             * Listener to decode message body from XML, JSON etc. into the "request" parameter bag
                             * Integration with SensioFrameworkExtraBundle converters to turn parameters to objects
                             * GET parameter validation and normalization
+
+                            ```
+                            PUT /users/1 HTTP/1.1
+                            Host: example.org
+                            Accept: application/json;q=0.9,*/*;q=0.8
+                            Content-Type: application/json
+
+                            {"name":"Don Johnson"}
+                            ```
+
+                            ```
+                            public functon putAction(Request $request)
+                            {
+                                $request->->request('name');
+                            }
+                            ```
+
                         </script>
                     </section>
                     <section data-markdown>
@@ -505,8 +573,10 @@
                             * Examines all available routes to determine what HTTP methods are available for the request URI
                             * Automatically sets an according ALLOW header in the response
 
-                                    fos_rest:
-                                        allowed_methods_listener: true
+                            ```
+                            fos_rest:
+                                allowed_methods_listener: true
+                            ```
 
                             ```
                             HTTP/1.1 200 OK
@@ -520,14 +590,16 @@
 
                             * Register MIME types that Symfony2's Request class does not support by default
 
-                                    fos_rest:
-                                        view:
-                                            mime_types:
-                                                json: ['application/json', 'application/vnd.example-com.foo+json']
-                                                rss: 'application/rss+xml'
-                                                jpg: 'image/jpeg'
-                                                png: 'image/png'
-                                        jsonp_handler: ~
+                            ```
+                            fos_rest:
+                                view:
+                                    mime_types:
+                                        json: ['application/json', 'application/vnd.example-com.foo+json']
+                                        rss: 'application/rss+xml'
+                                        jpg: 'image/jpeg'
+                                        png: 'image/png'
+                                jsonp_handler: ~
+                            ```
                         </script>
                     </section>
                     <section data-markdown>
@@ -538,13 +610,15 @@
                             * Determine for which exception to expose the exception message
                             * Automatically extract errors from a Form instance
 
-                                    fos_rest:
-                                        exception:
-                                            codes:
-                                                'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
-                                                'Doctrine\ORM\OptimisticLockException': HTTP_CONFLICT
-                                            messages:
-                                                'Symfony\Component\Routing\Exception\ResourceNotFoundException': true
+                            ```
+                            fos_rest:
+                                exception:
+                                    codes:
+                                        'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
+                                        'Doctrine\ORM\OptimisticLockException': HTTP_CONFLICT
+                                    messages:
+                                        'Symfony\Component\Routing\Exception\ResourceNotFoundException': true
+                            ```
                         </script>
                     </section>
                 </section>
@@ -571,63 +645,68 @@
                         <script type="text/template">
                             ## Usage
 
-                                use JMS\Serializer\Annotation as Serializer;
-                                use Hateoas\Configuration\Annotation as Hateoas;
+                            ```
+                            use JMS\Serializer\Annotation as Serializer;
+                            use Hateoas\Configuration\Annotation as Hateoas;
 
-                                /**
-                                 * @Serializer\XmlRoot("user")
-                                 *
-                                 * @Hateoas\Relation("self", href = "expr('/api/users/' ~ object.getId())")
-                                 */
-                                class User
-                                {
-                                    /** @Serializer\XmlAttribute */
-                                    private $id;
-                                    private $firstName;
-                                    private $lastName;
+                            /**
+                             * @Serializer\XmlRoot("user")
+                             *
+                             * @Hateoas\Relation("self", href = "expr('/api/users/' ~ object.getId())")
+                             */
+                            class User
+                            {
+                                /** @Serializer\XmlAttribute */
+                                private $id;
+                                private $firstName;
+                                private $lastName;
 
-                                    public function getId() {}
-                                }
-                            </script>
-                        </section>
-                        <section data-markdown>
-                            <script type="text/template">
-                                ## JSON
+                                public function getId() {}
+                            }
+                            ```
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## JSON
 
-                                    $hateoas = HateoasBuilder::create()->build();
-                                    $json    = $hateoas->serialize(new User(123, 'John', 'Doe'), 'json');
+                            ```
+                            $hateoas = HateoasBuilder::create()->build();
+                            $json    = $hateoas->serialize(new User(123, 'John', 'Doe'), 'json');
+                            ```
 
-                                <br>
-
-                                    {
-                                        "id": 123,
-                                        "first_name": "John",
-                                        "last_name": "Doe",
-                                        "_links": {
-                                            "self": {
-                                                "href": "/api/users/123"
-                                            }
-                                        }
+                            ```
+                            {
+                                "id": 123,
+                                "first_name": "John",
+                                "last_name": "Doe",
+                                "_links": {
+                                    "self": {
+                                        "href": "/api/users/123"
                                     }
-                            </script>
-                        </section>
-                        <section data-markdown>
-                            <script type="text/template">
-                                ## XML
+                                }
+                            }
+                            ```
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## XML
 
-                                    $hateoas = HateoasBuilder::create()->build();
-                                    $xml     = $hateoas->serialize(new User(123, 'John', 'Doe'), 'xml');
+                            ```
+                            $hateoas = HateoasBuilder::create()->build();
+                            $xml     = $hateoas->serialize(new User(123, 'John', 'Doe'), 'xml');
+                            ```
 
-                                <br>
+                            ```
+                            <user id="123">
+                                <first_name><![CDATA[John]]></first_name>
+                                <last_name><![CDATA[Doe]]></last_name>
 
-                                    <user id="123">
-                                        <first_name><![CDATA[John]]></first_name>
-                                        <last_name><![CDATA[Doe]]></last_name>
-
-                                        <link rel="self" href="/api/users/123"/>
-                                    </user>
-                            </script>
-                        </section>
+                                <link rel="self" href="/api/users/123"/>
+                            </user>
+                            ```
+                        </script>
                     </section>
                 </section>
                 <section>
@@ -667,22 +746,24 @@
                         <script type="text/template">
                             ## Usage
 
-                                demo_route:
-                                    pattern: /demo/{page}
+                            ```
+                            demo_route:
+                                pattern: /demo/{page}
+                            ```
 
-                            <p />
+                            ```
+                            $templateLink = $this
+                                ->get('hautelook.router.template')
+                                ->generate('demo_route', array(
+                                    'page'   => '{page}',
+                                    'sort'   => '{sort}',
+                                    'filter' => array('{filter}'),
+                                ));
+                            ```
 
-                                $templateLink = $this
-                                    ->get('hautelook.router.template')
-                                    ->generate('demo_route', array(
-                                        'page'   => '{page}',
-                                        'sort'   => '{sort}',
-                                        'filter' => array('{filter}'),
-                                    ));
-
-                            <br>
-
-                                /demo/{page}?{&sort}{&filter%5B%5D*}
+                            ```
+                            /demo/{page}?{&sort}{&filter%5B%5D*}
+                            ```
                         </script>
                     </section>
                 </section>
@@ -709,23 +790,25 @@
                         <script type="text/template">
                             ## Usage
 
-                                /**
-                                 * List all notes.
-                                 *
-                                 * @ApiDoc(
-                                 *   resource = true,
-                                 *   statusCodes = { 200 = "Returned when successful" }
-                                 * )
-                                 * @QueryParam(
-                                 *   name="offset", requirements="\d+", nullable=true,
-                                 *   description="Offset from which to start listing notes."
-                                 * )
-                                 * @QueryParam(
-                                 *   name="limit", requirements="\d+", default="5",
-                                 *   description="How many notes to return."
-                                 * )
-                                 */
-                                public function getNotesAction() {}
+                            ```
+                            /**
+                             * List all notes.
+                             *
+                             * @ApiDoc(
+                             *   resource = true,
+                             *   statusCodes = { 200 = "Returned when successful" }
+                             * )
+                             * @QueryParam(
+                             *   name="offset", requirements="\d+", nullable=true,
+                             *   description="Offset from which to start listing notes."
+                             * )
+                             * @QueryParam(
+                             *   name="limit", requirements="\d+", default="5",
+                             *   description="How many notes to return."
+                             * )
+                             */
+                            public function getNotesAction() {}
+                            ```
                         </script>
                     </section>
                     <section>
@@ -734,13 +817,14 @@
                 </section>
                 <section data-markdown>
                     <script type="text/template">
-                        ## LiipCacheControlBundle
+                        ## FOSHttpCacheBundle
 
-                        * Response listener to add **`Cache-Control` headers**
-                        * Listener matches the Request path/host/method/attributes
-                        * **Varnish helper** class to assist in purging/banning content
-                        * Listener to combine reverse proxies with Symfony2 security
-                        * Listener to move flash messages into a cookie
+                        * Set path-based cache expiration headers via app confign
+                        * Set up an invalidation scheme without writing PHP code
+                        * Tag your responses and invalidate cache based on tags
+                        * Send invalidation requests with minimal performance impact (Varnish and Nginx supported out of the box)
+                        * Differentiate caches based on user type (e.g. roles)
+                        * Easily implement HTTP cache client
                     </script>
                 </section>
                 <section>
