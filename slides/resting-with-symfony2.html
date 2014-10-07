@@ -18,7 +18,7 @@
         <div class="reveal">
             <div class="slides">
                 <section>
-                    <h1 class="title">RESTing with Symfony2</h1>
+                    <h1 class="title">RESTing with Symfony</h1>
                     <em>Lukas Kahwe Smith - October 10th, 2014</em>
                 </section>
 
@@ -195,7 +195,7 @@
 
                             * Safe means cacheable
                             * Idempotent: result independent on the # of executions
-                            * There is a debate if DELETE should be idempotent or not,
+                            * (*) There is a debate if DELETE should be idempotent or not,
                               ie. what should be the response for a DELETE requests on a non existent resource?
                         </script>
                     </section>
@@ -485,6 +485,25 @@
                     </section>
                     <section data-markdown>
                         <script type="text/template">
+                            ## MIME Type Listener
+
+                            * Register MIME types that Symfony2's Request class does not support by default
+
+                            ```
+                            fos_rest:
+                                view:
+                                    mime_types:
+                                        json: ['application/json', 'application/vnd.example.foo+json']
+                                        rss: 'application/rss+xml'
+                                        jpg: 'image/jpeg'
+                                        png: 'image/png'
+                                jsonp_handler: ~
+                            ```
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
                             ## Content Negotiation
 
                             ```
@@ -581,24 +600,6 @@
                             ```
                             HTTP/1.1 200 OK
                             Allow: GET, POST
-                            ```
-                        </script>
-                    </section>
-                    <section data-markdown>
-                        <script type="text/template">
-                            ## MIME Type Listener
-
-                            * Register MIME types that Symfony2's Request class does not support by default
-
-                            ```
-                            fos_rest:
-                                view:
-                                    mime_types:
-                                        json: ['application/json', 'application/vnd.example-com.foo+json']
-                                        rss: 'application/rss+xml'
-                                        jpg: 'image/jpeg'
-                                        png: 'image/png'
-                                jsonp_handler: ~
                             ```
                         </script>
                     </section>
