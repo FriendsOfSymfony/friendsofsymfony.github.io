@@ -442,7 +442,7 @@
                     </section>
                     <section data-markdown>
                         <script type="text/template">
-                            ## Usage
+                            ## View Response Listener and Route Generation
 
                             ```
                             class RestController
@@ -454,10 +454,11 @@
                                 * http method requirement: GET
                                 *
                                 * @View()
-                                * @QueryParam(name="page", requirements="\d+", default="1")
                                 */
-                                public function getArticlesAction($page)
+                                public function getArticlesAction(Request $request)
                                 {
+                                    $page = $request->queyry->get('page');
+                                    $page = preg_match('\d+', $page) ? $page : 1;
                                     $articles = array('bim', 'bam', 'bingo');
                                     return new \Acme\MyBundle\MyResponse($articles, $page);
                                 }
@@ -480,6 +481,36 @@
                                     <div>page: 2</div>
                                 </body>
                             </html>
+                            ```
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Param Fetcher Listener
+
+                            ```
+                            fos_rest:
+                                param_fetcher_listener: force
+                            ```
+
+                            ```
+                            class RestController
+                            {
+                                /**
+                                * Get the list of articles
+                                * route name: liip_hello_rest_get_articles
+                                * pattern: /liip/hello/rest/articles.{_format}
+                                * http method requirement: GET
+                                *
+                                * @View()
+                                * @QueryParam(name="page", requirements="\d+", default="1")
+                                */
+                                public function getArticlesAction($page)
+                                {
+                                    $articles = array('bim', 'bam', 'bingo');
+                                    return new \Acme\MyBundle\MyResponse($articles, $page);
+                                }
+                            }
                             ```
                         </script>
                     </section>
