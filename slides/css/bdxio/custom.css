@@ -1,0 +1,52 @@
+h1.title {
+    font-size: 3em !important;
+}
+
+.reveal table {
+    border-collapse: collapse;
+}
+.reveal table th {
+    border: 2px solid black;
+    padding: 5px 10px 5px 10px;
+    font-weight: bold;
+}
+.reveal table td {
+    border: 2px solid black;
+    padding: 5px 10px 5px 10px;
+}
+
+img.no-border {
+    border: 0 !important;
+    box-shadow: none !important;
+    background: none !important;
+}
+
+.me {
+    margin: 0 !important;
+    text-align: center !important;
+}
+
+.me li {
+    list-style-type: none;
+    text-align: left;
+}
+
+.me li a {
+    margin-left: 15px;
+}
+
+.slides h3 {
+    margin-bottom: 5%;
+}
+
+.bdxio-logo {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    height: 100px;
+    z-index: 30;
+}
+
+.reveal pre code {
+    max-height: 450px !important;
+}
