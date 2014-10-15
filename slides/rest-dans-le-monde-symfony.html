@@ -226,7 +226,7 @@
                 <section>
                     <section data-markdown>
                         <script type="text/template">
-                            In order to comply with RMM Level 1,<br>I want to turn business objects/data into **resources**.
+                            In order to comply with RMM Level 1,<br>I want to turn business objects/data to **resources**.
                         </script>
                     </section>
                     <section data-markdown>
@@ -304,8 +304,8 @@
                     </section>
                     <section>
                         <p>But I need to understand what the client wants and says.</p>
-                        <p class="fragment">And I also need to integrate with a serializer.</p>
-                        <p class="fragment">At some point, I will have to deal with filters, versioning, etc.</p>
+                        <p class="fragment">And I also need to rely on a serializer.</p>
+                        <p class="fragment">And I will have to deal with filters, versioning, etc.</p>
                         <p class="fragment"><br><strong>I need a framework!</strong></p>
                     </section>
                     <section data-markdown>
@@ -397,7 +397,7 @@
                     </section>
                     <section data-markdown>
                         <script type="text/template">
-                            ## Versioning
+                            ## Version Listener
 
                             ```
                             fos_rest:
@@ -417,7 +417,7 @@
                             ```
 
                             ```
-                            class Person
+                            class User
                             {
                                 /** @Until("1.0") */
                                 private $name;
@@ -513,7 +513,7 @@
                     </section>
                     <section data-markdown>
                         <script type="text/template">
-                            ## Want a smarter mapping?
+                            ## Want A Smarter Mapping?
                             <br>
                             <i class="fa fa-github"></i> [TheBigBrainsCompany/rest-util](https://github.com/TheBigBrainsCompany/rest-util)
                         </script>
