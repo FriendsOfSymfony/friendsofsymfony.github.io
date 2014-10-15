@@ -218,7 +218,7 @@
                     </section>
                     <section data-markdown>
                         <script type="text/template">
-                            ### Let's Meet the Symfony World!
+                            ### Let's Meet the PHP World!
                         </script>
                     </section>
                 </section>
@@ -226,18 +226,26 @@
                 <section>
                     <section data-markdown>
                         <script type="text/template">
-                            ## JMSSerializerBundle
+                            In order to comply with RMM Level 1,<br>I want to turn business objects/data into **resources**.
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## JMS Serializer
+
+                            <br>
+                            <i class="fa fa-github"></i> [schmittjoh/serializer](https://github.com/schmittjoh/serializer)
                         </script>
                     </section>
                     <section data-markdown>
                         <script type="text/template">
                             ### In A Nutshell
 
-                            * Integrates the [JMS Serializer](https://github.com/schmittjoh/serializer) library with Symfony2
                             * Enables (de)**serialization of object graphs**
                             * Implements visitor pattern to enable flexibility
                             * Fully leverage native JSON and XML
                             * Custom **exclusion strategies** to determine what to serialize
+                            * Quite easy to extend
                         </script>
                     </section>
                     <section data-markdown>
@@ -291,9 +299,21 @@
                 </section>
 
                 <section>
+                    <section>
+                        <p>In order to comply with RMM Level 2,<br>I want to use proper <strong>HTTP verbs</strong> and <strong>status codes</strong>.</p>
+                    </section>
+                    <section>
+                        <p>But I need to understand what the client wants and says.</p>
+                        <p class="fragment">And I also need to integrate with a serializer.</p>
+                        <p class="fragment">At some point, I will have to deal with filters, versioning, etc.</p>
+                        <p class="fragment"><br><strong>I need a framework!</strong></p>
+                    </section>
                     <section data-markdown>
                         <script type="text/template">
-                            ## FOSRestBundle
+                            ## FOSRestBundle (+ Symfony)
+
+                            <br>
+                            <i class="fa fa-github"></i> [FriendsOfSymfony/FOSRestBundle](https://github.com/FriendsOfSymfony/FOSRestBundle)
                         </script>
                     </section>
                     <section data-markdown>
@@ -301,13 +321,13 @@
                             ### In A Nutshell
 
                             * **Toolbox of services** and listeners to build RESTful APIs
-                            * Generate HTML, XML, JSON from a single action
+                            * Generate HTML, XML, and JSON from a single action
                             * Automatic generation of routes from actions
                             * GET parameter parsing and validation
-                            * Integration with Symfony2 serializer and JMS Serializer
-                            * Integration with SensioFrameworkExtraBundle
+                            * Integration with Symfony serializer and JMS Serializer
                             * Accept header negotiation (thx to the [Negotiation](https://github.com/willdurand/Negotiation) lib)
                             * Request body decoding
+                            * API versioning
 
                         </script>
                     </section>
@@ -315,24 +335,27 @@
                         <script type="text/template">
                             ### Usage
 
-                                class RestController
+                            ```
+                            class RestController
+                            {
+                                /**
+                                 * route name: liip_hello_rest_get_articles
+                                 * pattern: /liip/hello/rest/articles.{_format}
+                                 * http method requirement: GET
+                                 *
+                                 * @View()
+                                 * @QueryParam(name="page", requirements="\d+", default="1")
+                                 */
+                                public function getArticlesAction($page)
                                 {
-                                    /**
-                                    * Get the list of articles
-                                    * route name: liip_hello_rest_get_articles
-                                    * pattern: /liip/hello/rest/articles.{_format}
-                                    * http method requirement: GET
-                                    *
-                                    * @View()
-                                    * @QueryParam(name="page", requirements="\d+", default="1")
-                                    */
-                                    public function getArticlesAction($page)
-                                    {
-                                        $articles = array('bim', 'bam', 'bingo');
+                                    //$page = $request->query->get('page');
+                                    //$page = preg_match('\d+', $page) ? $page : 1;
+                                    $articles = [ 'bim', 'bam', 'bingo' ];
 
-                                        return new \Acme\MyBundle\MyResponse($articles, $page);
-                                    }
+                                    return new \Acme\MyBundle\MyResponse($articles, $page);
                                 }
+                            }
+                            ```
                         </script>
                     </section>
                     <section data-markdown>
@@ -369,15 +392,64 @@
                                 Accept: application/json, application/xml;q=0.9, text/html;q=0.8,
                                         text/*;q=0.7, */*;q=0.5
 
+                            <i class="fa fa-github"></i> [willdurand/Negotiation](https://github.com/willdurand/Negotiation)
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Versioning
+
+                            ```
+                            fos_rest:
+                                view:
+                                    mime_types:
+                                        json:
+                                            - 'application/json'
+                                            - 'application/json;version=1.0'
+                                            - 'application/json;version=1.1'
+                                format_listener:
+                                    media_type:
+                                        version_regex: '/(v|version)=(?P<version>[0-9\.]+)/'
+                            ```
+
+                            ```
+                            Accept: application/json;version=1.1
+                            ```
+
+                            ```
+                            class Person
+                            {
+                                /** @Until("1.0") */
+                                private $name;
+
+                                /** @Since("1.1") */
+                                private $lastname;
+                            }
+                            ```
                         </script>
                     </section>
                     <section data-markdown>
                         <script type="text/template">
                             ### Message Decoding
 
-                            * Listener to decode message body from XML, JSON, etc. into the `request` parameter bag
-                            * Integration with SensioFrameworkExtraBundle converters to turn parameters to objects
+                            * Decode request body from XML, JSON, etc. into the `request`
+                            * Integration with converters to turn parameters to objects
                             * GET parameter validation and normalization
+
+                            ```
+                            POST /users HTTP/1.1
+                            Accept: application/json,*/*;q=0.8
+                            Content-Type: application/json
+
+                            {"name":"Don Johnson"}
+                            ```
+
+                            ```
+                            public functon postAction(Request $request)
+                            {
+                                $name = $request->request->get('name');
+                            }
+                            ```
                         </script>
                     </section>
                     <section data-markdown>
@@ -417,16 +489,16 @@
 
                             <br>
                             <i class="fa fa-info-circle"></i> JSONP callback validation thanks to the
-                            <br>[JsonpCallbackValidator](https://github.com/willdurand/JsonpCallbackValidator) library
+                            <br>[willdurand/JsonpCallbackValidator](https://github.com/willdurand/JsonpCallbackValidator) library
                         </script>
                     </section>
                     <section data-markdown>
                         <script type="text/template">
-                            ### Error Handling
+                            ### Error/Exception Handling
 
                             * Return correct HTTP status code
                             * Determine for which exception to expose the exception message
-                            * Automatically extract errors from a Form instance
+                            * Automatically extract errors from a `Form` instance
 
                             <br>
 
@@ -439,18 +511,113 @@
                                       'Symfony\Component\Routing\Exception\ResourceNotFoundException': true
                         </script>
                     </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Want a smarter mapping?
+                            <br>
+                            <i class="fa fa-github"></i> [TheBigBrainsCompany/rest-util](https://github.com/TheBigBrainsCompany/rest-util)
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ### Usage
+
+                            ```
+                            $invalidArgumentExceptionMapping = new ExceptionMapping(array(
+                                'exceptionClassName'   => '\InvalidArgumentException',
+                                'factory'              => 'default',
+                                'httpStatusCode'       => 400,
+                                'errorCode'            => 400101,
+                                'errorMessage'         => null,
+                                'errorExtendedMessage' => 'Extended message',
+                                'errorMoreInfoUrl'     => 'http://api.my.tld/doc/error/400101',
+                            ));
+
+                            $exceptionMap = new ExceptionMap();
+                            $exceptionMap->add($invalidArgumentExceptionMapping);
+
+                            $errorResolver = new ErrorResolver($exceptionMap);
+
+                            $error = $errorResolver->resolve(
+                                new \InvalidArgumentException('This is an invalid argument exception.')
+                            );
+                            ```
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ### Symfony Bundle Configuration
+
+                            ```
+                            tbbc_rest_util:
+                                error:
+                                    exception_mapping:
+                                        InvalidArgumentException:
+                                            class: "InvalidArgumentException"
+                                            factory: default
+                                            http_status_code: 400
+                                            error_code: 400101
+                                            error_message: ~
+                                            extended_message: "Extended message"
+                                            more_info_url: "http://api.my.tld/doc/error/400101"
+                            ```
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ### Example
+
+                            ```
+                            print_r($error->toArray());
+                            ```
+
+                            ```
+                            Array
+                            (
+                                [http_status_code] => 400
+                                [code]             => 400101
+                                [message]          => This is an invalid argument exception.
+                                [extended_message] => Extended message
+                                [more_info_url]    => http://api.my.tld/doc/error/400101
+                            )
+                            ```
+
+                            ```
+                            echo json_encode($error->toArray());
+                            ```
+
+                            ```
+                            {
+                                "http_status_code": 400,
+                                "code":             400101,
+                                "message":          "This is an invalid argument exception.",
+                                "extended_message": "Extended message",
+                                "more_info_url":    "http:\/\/api.my.tld\/doc\/error\/400101"
+                            }
+                            ```
+                        </script>
+                    </section>
                 </section>
+
                 <section>
                     <section data-markdown>
                         <script type="text/template">
-                            ## BazingaHateoasBundle
+                            In order to comply with RMM Level 3,<br>I want to **HATEOAS** ALL THE THINGS!
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Hateoas
+
+                            <br>
+                            <i class="fa fa-github"></i> [willdurand/Hateoas](https://github.com/willdurand/Hateoas)
                         </script>
                     </section>
                     <section data-markdown>
                         <script type="text/template">
                             ### In A Nutshell
 
-                            * Integrates the [Hateoas](https://github.com/willdurand/Hateoas) library with Symfony2
                             * Leverages the JMS Serializer library
                             * Relies on the Symfony2 **ExpressionLanguage** component
                             * Supports JSON and XML
@@ -522,10 +689,11 @@
                         </section>
                     </section>
                 </section>
+
                 <section>
                     <section data-markdown>
                         <script type="text/template">
-                            ## TemplatedUriBundle
+                            In order to make my API more <strike>fancy</strike> self-documenting,<br>I want to use **URI Templates**.
                         </script>
                     </section>
                     <section data-markdown>
@@ -557,6 +725,14 @@
                     </section>
                     <section data-markdown>
                         <script type="text/template">
+                            ## TemplatedUriRouter
+
+                            <br>
+                            <i class="fa fa-github"></i> [hautelook/TemplatedUriRouter](https://github.com/hautelook/TemplatedUriRouter)
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
                             ### Usage
 
                                 demo_route:
@@ -564,8 +740,7 @@
 
                             <p />
 
-                                $templateLink = $this
-                                    ->get('hautelook.router.template')
+                                $templateLink = (new Rfc6570Generator($routes))
                                     ->generate('demo_route', array(
                                         'page'   => '{page}',
                                         'sort'   => '{sort}',
@@ -577,28 +752,45 @@
                                 /demo/{page}?{&sort}{&filter%5B%5D*}
 
                             <br>
-                            <i class="fa fa-info-circle"></i> Standalone library:
-                            [TemplatedUriRouter](https://github.com/hautelook/TemplatedUriRouter)
+                            <i class="fa fa-info-circle"></i> Leverages the [Symfony Routing component](http://symfony.com/doc/current/components/routing/introduction.html).
                         </script>
                     </section>
                 </section>
                 <section>
                     <section data-markdown>
                         <script type="text/template">
+                            In order to [make humans happy|dominate the world|whatever],
+                            <br>I want to create **documentation** for my API.
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Swagger UI
+
+                            <br>
+                            <i class="fa fa-github"></i> [wordnik/swagger-ui](https://github.com/wordnik/swagger-ui)
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
                             ## NelmioApiDocBundle
+
+                            <br>
+                            <i class="fa fa-github"></i> [nelmio/NelmioApiDocBundle](https://github.com/nelmio/NelmioApiDocBundle)
                         </script>
                     </section>
                     <section data-markdown>
                         <script type="text/template">
                             ### In A Nutshell
 
+                            * Designed for Symfony
                             * Generates documentation for your REST APIs
                             * Gathers information from PHPDoc
                             * Supports FOSRestBundle, SensioFrameworkExtraBundle, JMSSerializerBundle
-                              and JMSSecurityExtraBundle annotations
-                            * Supports **your own annotations**
-                            * Allows to add **your own parsers**
+                              and JMSSecurityExtraBundle
+                            * Supports **your own annotations** and **you own parsers**
                             * Sandbox (**Killer Feature &hearts;**)
+                            * Swagger compliant
                         </script>
                     </section>
                     <section data-markdown>
@@ -627,81 +819,44 @@
                     <section>
                         <img src="images/sfcon2k13/apidocbundle.png" class="no-border" />
                     </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## ng-admin
+
+                            <br>
+                            <i class="fa fa-github"></i> [marmelab/ng-admin](https://github.com/marmelab/ng-admin)
+                        </script>
+                    </section>
+                    <section>
+                        <img src="images/bdxio/ng-admin.png" class="no-border" />
+                    </section>
                 </section>
+
                 <section>
                     <section data-markdown>
                         <script type="text/template">
-                            ## LiipCacheControlBundle
+                            In order to not burn too many servers,<br>I want to add and manage a **caching layer**.
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## FOSHttpCache
+
+                            <br>
+                            <i class="fa fa-github"></i> [FriendsOfSymfony/FOSHttpCache](https://github.com/FriendsOfSymfony/FOSHttpCache)
                         </script>
                     </section>
                     <section data-markdown>
                         <script type="text/template">
                             ### In A Nutshell
 
-                            * Response listener to add **`Cache-Control` headers**
-                            * Listener matches the Request path/host/method/attributes
-                            * **Varnish helper** class to assist in purging/banning content
-                            * Listener to combine reverse proxies with Symfony2 security
-                            * Listener to move flash messages into a cookie
-                        </script>
-                    </section>
-                    <section data-markdown>
-                        <script type="text/template">
-                            ### New Shiny Bundle!
-
-                            [FriendsOfSymfony/FOSHttpCacheBundle](https://github.com/FriendsOfSymfony/FOSHttpCacheBundle)
-                        </script>
-                    </section>
-                </section>
-                <section>
-                    <section data-markdown>
-                        <script type="text/template">
-                            ## OAuth
-                        </script>
-                    </section>
-                    <section data-markdown>
-                        <script type="text/template">
-                            ### What Is OAuth?
-
-                            OAuth is an **open protocol** to allow **secure authorization**<br>in a simple and
-                            **standard method** from web, mobile<br>and desktop applications.
-
-                            <br>
-                            It is an **authorization framework** that enables a third-party application to
-                            **obtain limited access to an HTTP service**.
-
-                            <p>
-                                <br>
-                                <br>
-                                <small>
-                                    [http://edu.williamdurand.fr/security-slides/#slide85](http://edu.williamdurand.fr/security-slides/#slide85)
-                                </small>
-                            </p>
-                        </script>
-                    </section>
-                    <section data-markdown>
-                        <script type="text/template">
-                            ### HWIOAuthBundle
-
-                            * Client-side implementation
-                            * Support 20+ different providers
-                            * Supports both OAuth1.0a and OAuth2
-                        </script>
-                    </section>
-                    <section data-markdown>
-                        <script type="text/template">
-                            ### FOSOAuthServerBundle
-
-                            * Server-side implementation of OAuth2
-                            * Supports Doctrine ORM|ODM, Propel
-                            * Highly configurable
-
-                            <br>
-
-                            Thank you [Alan Gabriel Bem](https://github.com/alanbem) for helping us!
-
-                            <br>
-                            [BazingaOAuthServerBundle](https://github.com/willdurand/BazingaOAuthServerBundle) for OAuth1.0a.
+                            * Set path-based cache expiration headers via app config
+                            * Set up an invalidation scheme without writing PHP code
+                            * Tag your responses and invalidate cache based on tags
+                            * Send invalidation requests with minimal performance impact
+                              (**Varnish** and **Nginx** supported out of the box)
+                            * Differentiate caches based on user type (e.g. roles)
+                            * Easily implement HTTP cache client
                         </script>
                     </section>
                 </section>
@@ -714,12 +869,12 @@
                     </section>
                     <section data-markdown>
                         <script type="text/template">
-                            ### [gimler/symfony-rest-edition](https://github.com/gimler/symfony-rest-edition)
+                            ### <i class="fa fa-github"></i> [gimler/symfony-rest-edition](https://github.com/gimler/symfony-rest-edition)
                         </script>
                     </section>
                     <section data-markdown>
                         <script type="text/template">
-                            ### [willdurand/Propilex](https://github.com/willdurand/Propilex)
+                            ### <i class="fa fa-github"></i> [willdurand/Propilex](https://github.com/willdurand/Propilex)
                         </script>
                     </section>
                 </section>
@@ -784,6 +939,64 @@
 
                         </small>
                     </script>
+                </section>
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## OAuth
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ### What Is OAuth?
+
+                            OAuth is an **open protocol** to allow **secure authorization**<br>in a simple and
+                            **standard method** from web, mobile<br>and desktop applications.
+
+                            <br>
+                            It is an **authorization framework** that enables a third-party application to
+                            **obtain limited access to an HTTP service**.
+
+                            <p>
+                                <br>
+                                <br>
+                                <small>
+                                    [http://edu.williamdurand.fr/security-slides/#slide85](http://edu.williamdurand.fr/security-slides/#slide85)
+                                </small>
+                            </p>
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ### HWIOAuthBundle
+
+                            * Client-side implementation
+                            * Support 20+ different providers
+                            * Supports both OAuth1.0a and OAuth2
+
+                            <br>
+                            <i class="fa fa-github"></i> [hwi/HWIOAuthBundle](https://github.com/hwi/HWIOAuthBundle)
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ### FOSOAuthServerBundle
+
+                            * Server-side implementation of OAuth2
+                            * Supports Doctrine ORM|ODM, Propel
+                            * Highly configurable
+
+                            <br>
+
+                            Thank you [Alan Gabriel Bem](https://github.com/alanbem) for helping us!
+
+                            <br>
+                            <i class="fa fa-github"></i> [FriendsOfSymfony/FOSOAuthServerBundle](https://github.com/FriendsOfSymfony/FOSOAuthServerBundle)
+                            <br>
+                            <i class="fa fa-github"></i> [willdurand/BazingaOAuthServerBundle](https://github.com/willdurand/BazingaOAuthServerBundle) (OAuth1.0a)
+                        </script>
+                    </section>
                 </section>
             </div>
         </div>

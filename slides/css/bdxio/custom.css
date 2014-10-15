@@ -50,3 +50,7 @@ img.no-border {
 .reveal pre code {
     max-height: 450px !important;
 }
+
+strike {
+    opacity: 0.7;
+}
