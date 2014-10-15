@@ -457,7 +457,7 @@
                                 */
                                 public function getArticlesAction(Request $request)
                                 {
-                                    $page = $request->queyry->get('page');
+                                    $page = $request->query->get('page');
                                     $page = preg_match('\d+', $page) ? $page : 1;
                                     $articles = array('bim', 'bam', 'bingo');
                                     return new \Acme\MyBundle\MyResponse($articles, $page);
