@@ -10,10 +10,9 @@
         <link rel="stylesheet" href="css/fix-fontawesome-reveal-js.css">
         <link rel="stylesheet" href="css/bdxio/custom.css">
         <script>
-            document.write('<link rel="stylesheet" href="css/sfcon2k13/' +
-                (window.location.search.match(/print-pdf/gi) ? 'pdf' : 'paper') +
-                '.css" type="text/css" media="print">'
-            );
+            if (window.location.search.match(/print-pdf/gi)) {
+                document.write('<link rel="stylesheet" href="css/sfcon2k13/pdf.css" type="text/css">');
+            }
         </script>
     </head>
     <body>
