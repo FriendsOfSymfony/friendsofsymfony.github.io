@@ -95,7 +95,6 @@
                         <script type="text/template">
                             ## Directory Structure
 
-
                             ![](images/bundleforthat/dir_structure.png)
 
                             [cookbook/bundles/best_practices.html](http://symfony.com/doc/current/cookbook/bundles/best_practices.html#directory-structure)
@@ -412,16 +411,16 @@
                             ## JMSSecurityExtraBundle
 
                             ```
-                            use Acme\MyBundle\ArticleCollection;
+                            use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+                            use Symfony\Component\HttpFoundation\Response;
 
-                            class RestController extends Controller
+                            class MyController extends Controller
                             {
                                 /**
                                  * Get the list of articles
                                  *
                                  * @return array data
                                  *
-                                 * @Template()
                                  * @Secure(roles="ROLE_ADMIN")
                                  */
                                 public function getArticlesAction()
@@ -433,7 +432,8 @@
                                     }
                                     */
 
-                                    return array('bim', 'bam', 'bingo');
+                                    $data = json_encode(array('bim', 'bam', 'bingo'));
+                                    return new Response($data);
                                 }
                             }
                             ```
@@ -465,7 +465,7 @@
                             /**
                              * @Serializer\XmlRoot("response")
                              */
-                            class Response
+                            class ArticleResponse
                             {
                                 /**
                                  * @var Collection
@@ -503,7 +503,7 @@
                             ## FOSRestBundle
 
                             ```
-                            use Acme\MyBundle\Response;
+                            use Acme\MyBundle\ArticleResponse;
 
                             class RestController
                             {
@@ -526,7 +526,7 @@
                                 {
                                     $articles = array('bim', 'bam', 'bingo');
 
-                                    return new Response($articles, $page);
+                                    return new ArticleResponse($articles, $page);
                                 }
                             }
                             ```
@@ -682,6 +682,16 @@
                             <p>.. and what are you looking for?</p>
 
                             <p>.. what feature you need in your next project and lets see if we can find a Bundle for you ..</p>
+                        </script>
+                    </section>
+
+                </section>
+
+                <section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## References
                         </script>
                     </section>
 
