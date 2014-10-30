@@ -58,7 +58,7 @@ Slides
 ------
 
  * *FR* [Le composant Config\\Definition](slides/config_definition.html), sfPot Paris May 2012
- * [There is a bundle for that](slides/there_is_a_bundle_for_that.html), Symfony Live Paris 2012, updated for ezSummerCamp 2013
+ * [There is a bundle for that](slides/there_is_a_bundle_for_that.html), Symfony Live Paris 2012, updated for ezSummerCamp 2013 and Symfony Live Berlin 2014
  * [Build Awesome REST APIs With Symfony2](slides/build-awesome-rest-apis-with-symfony2.html), SymfonyCon Warsaw 2013
  * [RESTing With Symfony2](slides/resting-with-symfony2.html), SunshinePHP Miami 2014, based on SymfonyCon Warsaw 2013, updated for Symfony Live New York 2014
  * [REST dans le monde Symfony](slides/rest-dans-le-monde-symfony.html), PHPTour Lyon 2014, updated for Bdx.io 2014
