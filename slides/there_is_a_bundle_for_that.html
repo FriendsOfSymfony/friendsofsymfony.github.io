@@ -231,6 +231,22 @@
 
                     <section data-markdown>
                         <script type="text/template">
+                            ## Composer
+
+                            * Default dependency management as of Symfony 2.1
+                            * Bundles should be registered on[Packagist](http://packagist.org/)
+                            * Use [Satis](https://github.com/composer/satis/) or [Totan Proxy](https://toranproxy.com) to create your own composer index
+                            * Alternatively use ``repositories`` directive to make composer aware of specific (closed source) repositories
+                            * If you use github make sure to enable the "Packagist" commit hook
+
+                            <br>
+
+                            [getcomposer.org](http://getcomposer.org)
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
                         ## Testing
 
                         * [JMSCommandBundle](https://github.com/schmittjoh/JMSCommandBundle) generates Kernels for functional tests
@@ -371,6 +387,42 @@
 
                     <section data-markdown>
                         <script type="text/template">
+                            ## Temporary patch a composer package
+
+                            * For example patching the 1.2.0 release of SomeSuperBundle
+                            * Fork into your own github account ("mygithub")
+                            * Apply the patch into a new branch ("add-rocknroll")
+                            * Push the branch to your fork
+                            * Open a PR but in the mean time already use the patch
+
+                            ```
+                            {
+                                "repositories": [
+                                    {
+                                        "type": "vcs",
+                                        "url": "https://github.com/mygithub/SomeSuperBundle"
+                                    }
+                                ],
+                                "require" : {
+                                    "php": ">=5.3.3",
+                                    "symfony/symfony": "~2.3",
+                                    "some/super-bundle": "dev-add-rocknroll as 1.2.0"
+                                }
+                            }
+                            ```
+                        </script>
+                    </section>
+
+                </section>
+
+                <section>
+
+                    <section>
+                        <h1 class="title">Popular Bundles</h1>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
                             ## Evaluation check list
 
                             * Search knpbundles.com
@@ -381,14 +433,6 @@
                             * Check the code
                             * Try it out ..
                         </script>
-                    </section>
-
-                </section>
-
-                <section>
-
-                    <section>
-                        <h1 class="title">Popular Bundles</h1>
                     </section>
 
                     <section data-markdown>
